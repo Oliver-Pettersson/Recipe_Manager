@@ -8,7 +8,7 @@ export default function CoverImage() {
       width="80%"
       maxHeight="80%"
       sx={{ backgroundColor: "#62727B", display: "block", margin: "auto", objectFit: "cover" }}
-      src={"/images/placeholder-image.png"}
+      src="/images/placeholder-image.png"
     />
   );
 }
