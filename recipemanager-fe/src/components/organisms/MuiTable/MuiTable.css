@@ -1,0 +1,20 @@
+span.muiTableSortLabel.Mui-active {
+    color: white;
+}
+
+span.muiTableSortLabel:hover {
+    color: white;
+}
+
+span.muiTableSortLabel.Mui-active > svg {
+    fill: white;
+}
+
+svg.MuiTablePagination-selectIcon {
+    fill: white;
+    color: white;
+}
+
+div.MuiTablePagination-actions > button {
+    color: rgba(255, 255, 255, 0.26) !important;
+}
