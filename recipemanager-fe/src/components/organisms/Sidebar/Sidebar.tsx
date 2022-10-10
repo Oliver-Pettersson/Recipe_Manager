@@ -12,10 +12,12 @@ import React from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import FoodIcon from "../../atoms/Icons/FoodIcon";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 180;
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   return (
     <Drawer
       variant="permanent"
@@ -35,7 +37,7 @@ export default function Sidebar() {
       <Box sx={{ overflow: "auto", backgroundColor: "#37474F" }}>
         <List>
           <ListItem key={"Home"} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate("/")}>
               <ListItemIcon>
                 <HomeIcon htmlColor="#ffffff" />
               </ListItemIcon>
@@ -43,7 +45,7 @@ export default function Sidebar() {
             </ListItemButton>
           </ListItem>
           <ListItem key={"Recipes"} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate("/recipes")}>
               <ListItemIcon>
                 <ReceiptIcon htmlColor="#ffffff" />
               </ListItemIcon>
@@ -51,7 +53,7 @@ export default function Sidebar() {
             </ListItemButton>
           </ListItem>
           <ListItem key={"Ingredients"} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate("/ingredients")}>
               <ListItemIcon>
                 <FoodIcon color="#ffffff" />
               </ListItemIcon>
