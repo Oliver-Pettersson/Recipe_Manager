@@ -29,7 +29,7 @@ export default function RecipeCard() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button sx={{ margin: "auto" }} size="small">
+        <Button sx={{ margin: "auto", color: "#63A4FF" }} size="small">
           Details
         </Button>
       </CardActions>

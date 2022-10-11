@@ -7,7 +7,7 @@ span.muiTableSortLabel:hover {
 }
 
 span.muiTableSortLabel.Mui-active > svg {
-    fill: white;
+    fill: #63A4FF;
 }
 
 svg.MuiTablePagination-selectIcon {

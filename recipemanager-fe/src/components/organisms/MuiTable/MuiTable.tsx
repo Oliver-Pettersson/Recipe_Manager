@@ -1,6 +1,5 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import Box from "@mui/material/Box";
+import AddIcon from '@mui/icons-material/Add';
 import IconButton from "@mui/material/IconButton";
 import { alpha } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -12,13 +11,13 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { visuallyHidden } from "@mui/utils";
 import * as React from "react";
 import "./MuiTable.css";
 
 interface Data {
+  id: string;
   calories: number;
   carbs: number;
   fat: number;
@@ -74,38 +73,6 @@ interface HeadCell {
   numeric: boolean;
 }
 
-const headCells: readonly HeadCell[] = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "Dessert (100g serving)",
-  },
-  {
-    id: "calories",
-    numeric: true,
-    disablePadding: false,
-    label: "Calories",
-  },
-  {
-    id: "fat",
-    numeric: true,
-    disablePadding: false,
-    label: "Fat (g)",
-  },
-  {
-    id: "carbs",
-    numeric: true,
-    disablePadding: false,
-    label: "Carbs (g)",
-  },
-  {
-    id: "protein",
-    numeric: true,
-    disablePadding: false,
-    label: "Protein (g)",
-  },
-];
 
 interface EnhancedTableProps {
   onRequestSort: (
@@ -114,10 +81,11 @@ interface EnhancedTableProps {
   ) => void;
   order: Order;
   orderBy: string;
+  headCells: HeadCell[];
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } = props;
+  const { order, orderBy, onRequestSort, headCells } = props;
   const createSortHandler =
     (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
@@ -159,70 +127,44 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 interface EnhancedTableToolbarProps {
-  numSelected: number;
+  addIconOnClick: () => void;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected } = props;
+  const { addIconOnClick } = props;
 
   return (
     <Toolbar
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
       }}
     >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Nutrition
-        </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+      <Typography
+        sx={{ flex: "1 1 100%" }}
+        variant="h6"
+        id="tableTitle"
+        component="div"
+      >
+        Nutrition
+      </Typography>
+        <IconButton onClick={addIconOnClick}>
+          <AddIcon sx={{color: "#63A4FF"}} />
+        </IconButton>
     </Toolbar>
   );
 };
 
 interface MuiTableProps {
   rows: Data[];
+  rowOnClick: (row: Data) => void;
+  addIconOnClick: () => void;
+  headCells: HeadCell[];
 }
 
-export default function MuiTable({ rows }: MuiTableProps) {
+export default function MuiTable({ rows, rowOnClick, headCells, addIconOnClick }: MuiTableProps) {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -234,26 +176,6 @@ export default function MuiTable({ rows }: MuiTableProps) {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleClick = (_event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (_event: unknown, newPage: number) => {
@@ -273,7 +195,7 @@ export default function MuiTable({ rows }: MuiTableProps) {
 
   return (
     <>
-      <EnhancedTableToolbar numSelected={selected.length} />
+      <EnhancedTableToolbar addIconOnClick={addIconOnClick} />
       <TableContainer>
         <Table
           sx={{ minWidth: 750 }}
@@ -281,6 +203,7 @@ export default function MuiTable({ rows }: MuiTableProps) {
           size={dense ? "small" : "medium"}
         >
           <EnhancedTableHead
+          headCells={headCells}
             order={order}
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
@@ -296,7 +219,7 @@ export default function MuiTable({ rows }: MuiTableProps) {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.name)}
+                    onClick={() => rowOnClick(row)}
                     role="checkbox"
                     tabIndex={-1}
                     key={row.name}
@@ -337,7 +260,6 @@ export default function MuiTable({ rows }: MuiTableProps) {
         </Table>
       </TableContainer>
       <TablePagination
-      classes={{selectIcon: "ingredientsSelectIcon"}}
         sx={{ color: "white" }}
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
