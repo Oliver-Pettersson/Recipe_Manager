@@ -15,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import { visuallyHidden } from "@mui/utils";
 import * as React from "react";
 import "./MuiTable.css";
+import SearchBar from "../../atoms/SearchBar/SearchBar";
 
 interface Data {
   id: string;
@@ -128,10 +129,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   addIconOnClick: () => void;
+  tableTitle: string;
+  handleSearch: (value: string) => void;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { addIconOnClick } = props;
+  const { addIconOnClick, tableTitle, handleSearch } = props;
 
   return (
     <Toolbar
@@ -146,8 +149,9 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         id="tableTitle"
         component="div"
       >
-        Nutrition
+        {tableTitle}
       </Typography>
+      <SearchBar onChange={handleSearch}/>
         <IconButton onClick={addIconOnClick}>
           <AddIcon sx={{color: "#63A4FF"}} />
         </IconButton>
@@ -160,9 +164,11 @@ interface MuiTableProps {
   rowOnClick: (row: Data) => void;
   addIconOnClick: () => void;
   headCells: HeadCell[];
+  tableTitle: string;
+  handleSearch: (value: string) => void;
 }
 
-export default function MuiTable({ rows, rowOnClick, headCells, addIconOnClick }: MuiTableProps) {
+export default function MuiTable({ rows, rowOnClick, headCells, addIconOnClick, tableTitle, handleSearch }: MuiTableProps) {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
   const [page, setPage] = React.useState(0);
@@ -195,7 +201,7 @@ export default function MuiTable({ rows, rowOnClick, headCells, addIconOnClick }
 
   return (
     <>
-      <EnhancedTableToolbar addIconOnClick={addIconOnClick} />
+      <EnhancedTableToolbar handleSearch={handleSearch} addIconOnClick={addIconOnClick} tableTitle={tableTitle} />
       <TableContainer>
         <Table
           sx={{ minWidth: 750 }}

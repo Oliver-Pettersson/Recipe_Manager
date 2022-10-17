@@ -22,10 +22,6 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
         <DialogTitle sx={{ color: "white" }}>Create Ingredient</DialogTitle>
         <DialogContent>
           <MuiTextField autoFocus id="name" label="name" />
-          <MuiTextField autoFocus id="calories" label="calories" />
-          <MuiTextField autoFocus id="fat" label="fat" />
-          <MuiTextField autoFocus id="carbs" label="carbs" />
-          <MuiTextField autoFocus id="protein" label="protein" />
         </DialogContent>
         <DialogActions>
           <MuiButton onClick={handleClose}>Cancel</MuiButton>

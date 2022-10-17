@@ -1,18 +1,18 @@
 import { Box, Paper } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import CreateIngredientDialog from "../../organisms/CreateIngredientDialog/CreateIngredientDialog";
 import MuiTable from "../../organisms/MuiTable/MuiTable";
 
-export default function IngredientsPage() {
+export default function RecipesPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
-  const defaultRows = [
+  const defaultRows = useRef([
     {
       id: "1",
       calories: 150,
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "potein bar",
+      name: "cake",
     },
     {
       id: "1",
@@ -28,7 +28,7 @@ export default function IngredientsPage() {
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "protein bar",
+      name: "pizza",
     },
     {
       id: "1",
@@ -36,7 +36,7 @@ export default function IngredientsPage() {
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "protein bar",
+      name: "lasagna",
     },
     {
       id: "1",
@@ -44,7 +44,7 @@ export default function IngredientsPage() {
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "protein bar",
+      name: "carrot",
     },
     {
       id: "1",
@@ -52,18 +52,27 @@ export default function IngredientsPage() {
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "protein bar",
+      name: "pudding",
     },
+    {
+        id: "1",
+        calories: 150,
+        carbs: 60,
+        fat: 15,
+        protein: 18,
+        name: "pudding",
+      },
     {
       id: "1",
       calories: 150,
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "protein bar",
+      name: "lamb",
     },
-  ]
-  const [rows, setRows] = useState(defaultRows)
+  ])
+  const [rows, setRows] = useState(defaultRows.current)
+
 
   return (
     <>
@@ -78,17 +87,17 @@ export default function IngredientsPage() {
           }}
         >
           <MuiTable
-          handleSearch={(value) => setRows(defaultRows.filter((row) => row.name.includes(value)))}
             addIconOnClick={() => {
               setOpenCreateDialog(true);
             }}
-            tableTitle="Ingredients"
+            tableTitle="Recipes"
+            handleSearch={(value) => setRows(defaultRows.current.filter((row) => row.name.includes(value)))}
             headCells={[
               {
                 id: "name",
                 numeric: false,
                 disablePadding: true,
-                label: "Ingredient (100g serving)",
+                label: "Recipe name",
               },
               {
                 id: "calories",
