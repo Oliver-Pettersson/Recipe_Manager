@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -8,6 +8,8 @@ import MuiButton from "../../atoms/MuiButton/MuiButton";
 import { Formik } from "formik";
 import Food from "../../../types/Food/Food";
 import * as Yup from "yup";
+import IngredientsSearchBar from "../../molecules/IngredientsSearchBar/IngredientsSearchBar";
+
 interface PropsType {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,6 +19,14 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const [initialValue, setInitialValue] = useState({
+    name: "",
+    carbs: "",
+    protein: "",
+    fat: "",
+    calories: "",
+  });
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Can't be empty").max(255, "name is too long"),
@@ -41,23 +51,22 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
   return (
     <Dialog open={open} onClose={handleClose}>
       <Formik
+        enableReinitialize
         validationSchema={validationSchema}
-        initialValues={{
-          name: "",
-          carbs: "",
-          protein: "",
-          fat: "",
-          calories: "",
-        }}
+        initialValues={initialValue}
         onSubmit={(values: Food) => {
           console.log(values);
         }}
       >
-        {({ handleChange, submitForm, errors }) => (
+        {({ handleChange, submitForm, errors, values }) => (
           <div style={{ backgroundColor: "#37474F" }}>
             <DialogTitle sx={{ color: "white" }}>Create Ingredient</DialogTitle>
             <DialogContent>
+              <IngredientsSearchBar
+                onSelection={(value) => setInitialValue(value)}
+              />
               <MuiTextField
+                value={values.name}
                 error={errors.name !== undefined}
                 helperText={errors.name}
                 autoFocus
@@ -66,6 +75,7 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
                 onChange={handleChange}
               />
               <MuiTextField
+                value={values.calories}
                 error={errors.calories !== undefined}
                 helperText={errors.calories}
                 label="calories"
@@ -73,6 +83,7 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
                 onChange={handleChange}
               />
               <MuiTextField
+                value={values.fat}
                 error={errors.fat !== undefined}
                 helperText={errors.fat}
                 label="fat"
@@ -80,6 +91,7 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
                 onChange={handleChange}
               />
               <MuiTextField
+                value={values.carbs}
                 error={errors.carbs !== undefined}
                 helperText={errors.carbs}
                 label="carbs"
@@ -87,6 +99,7 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
                 onChange={handleChange}
               />
               <MuiTextField
+                value={values.protein}
                 error={errors.protein !== undefined}
                 helperText={errors.protein}
                 label="protein"
