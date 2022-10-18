@@ -7,10 +7,8 @@ export default function MuiTextField(props: TextFieldProps) {
       InputLabelProps={{ sx: { color: "white" } }}
       sx={{
         color: "white",
-        borderBottomColor: "white",
         "& .MuiInputLabel-root": { color: "white" },
-        borderColor: "solid white",
-        borderBottom: 1,
+        "& .MuiInput-input": { borderBottomColor: "white", borderColor: "solid white", borderBottom: 1 },
       }}
       InputProps={{ disableUnderline: true, sx: { color: "white" } }}
       SelectProps={{ sx: { color: "white" } }}

@@ -228,7 +228,7 @@ export default function MuiTable({ rows, rowOnClick, headCells, addIconOnClick, 
                     onClick={() => rowOnClick(row)}
                     role="checkbox"
                     tabIndex={-1}
-                    key={row.name}
+                    key={index}
                   >
                     <TableCell
                       sx={{ color: "white" }}

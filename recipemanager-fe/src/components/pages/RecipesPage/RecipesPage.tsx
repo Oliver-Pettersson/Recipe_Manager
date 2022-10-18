@@ -5,14 +5,14 @@ import MuiTable from "../../organisms/MuiTable/MuiTable";
 
 export default function RecipesPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
-  const defaultRows = useRef([
+  const defaultRows = [
     {
       id: "1",
       calories: 150,
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "cake",
+      name: "potein bar",
     },
     {
       id: "1",
@@ -28,7 +28,7 @@ export default function RecipesPage() {
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "pizza",
+      name: "protein bar",
     },
     {
       id: "1",
@@ -36,7 +36,7 @@ export default function RecipesPage() {
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "lasagna",
+      name: "protein bar",
     },
     {
       id: "1",
@@ -44,7 +44,7 @@ export default function RecipesPage() {
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "carrot",
+      name: "protein bar",
     },
     {
       id: "1",
@@ -52,27 +52,18 @@ export default function RecipesPage() {
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "pudding",
+      name: "protein bar",
     },
-    {
-        id: "1",
-        calories: 150,
-        carbs: 60,
-        fat: 15,
-        protein: 18,
-        name: "pudding",
-      },
     {
       id: "1",
       calories: 150,
       carbs: 60,
       fat: 15,
       protein: 18,
-      name: "lamb",
+      name: "protein bar",
     },
-  ])
-  const [rows, setRows] = useState(defaultRows.current)
-
+  ]
+  const [rows, setRows] = useState(defaultRows)
 
   return (
     <>
@@ -91,7 +82,7 @@ export default function RecipesPage() {
               setOpenCreateDialog(true);
             }}
             tableTitle="Recipes"
-            handleSearch={(value) => setRows(defaultRows.current.filter((row) => row.name.includes(value)))}
+            handleSearch={(value) => setRows(defaultRows.filter((row) => row.name.includes(value)))}
             headCells={[
               {
                 id: "name",
