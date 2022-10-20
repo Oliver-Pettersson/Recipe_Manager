@@ -71,25 +71,50 @@ export default function IngredientsSearchBar({ onSelection }: PropsType) {
       getOptionLabel={(option) => option.name}
       renderOption={(props, option) => (
         <Box
-          component="li"sx={{
+          component="li"
+          sx={{
             width: "100%",
           }}
           {...props}
         >
-            <div style={{
-            width: "100%",
-            display: "table",
-            tableLayout: "fixed"
-          }}>
-        <div style={{width: "100%", textAlign: "center"}}>
-          <Typography sx={{ textAlign: "center"}} variant="h6">{option.name}</Typography>
+          <div
+            style={{
+              width: "100%",
+              display: "table",
+              tableLayout: "fixed",
+            }}
+          >
+            <div style={{ justifyContent: "center", textAlign: "center", display: "table-caption"}}>
+            <Typography variant="h4" >
+              {option.name}
+            </Typography>
           </div>
-          <div style={{display: "table-row"}}>
-          <Typography sx={{display: "table-cell", textAlign: "center"}} variant="body2">Calories: {option.calories}</Typography>
-          <Typography sx={{display: "table-cell", textAlign: "center"}} variant="body2">Protein: {option.protein}</Typography>
-          <Typography sx={{display: "table-cell", textAlign: "center"}} variant="body2">Carbs: {option.carbs}</Typography>
-          <Typography sx={{display: "table-cell", textAlign: "center"}} variant="body2">Fat: {option.protein}</Typography>
-          </div>
+            <div style={{ display: "table-row" }}>
+              <Typography
+                sx={{ display: "table-cell", textAlign: "center" }}
+                variant="body2"
+              >
+                Calories: {option.calories}
+              </Typography>
+              <Typography
+                sx={{ display: "table-cell", textAlign: "center" }}
+                variant="body2"
+              >
+                Protein: {option.protein}
+              </Typography>
+              <Typography
+                sx={{ display: "table-cell", textAlign: "center" }}
+                variant="body2"
+              >
+                Carbs: {option.carbs}
+              </Typography>
+              <Typography
+                sx={{ display: "table-cell", textAlign: "center" }}
+                variant="body2"
+              >
+                Fat: {option.protein}
+              </Typography>
+            </div>
           </div>
         </Box>
       )}
