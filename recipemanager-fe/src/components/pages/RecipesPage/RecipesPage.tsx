@@ -1,7 +1,7 @@
 import { Box, Paper } from "@mui/material";
 import React, { useState, useRef } from "react";
-import CreateIngredientDialog from "../../organisms/CreateIngredientDialog/CreateIngredientDialog";
 import MuiTable from "../../organisms/MuiTable/MuiTable";
+import CreateRecipeDialog from "../../organisms/CreateRecipeDialog/CreateRecipeDialog";
 
 export default function RecipesPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
@@ -120,7 +120,7 @@ export default function RecipesPage() {
           />
         </Paper>
       </Box>
-      <CreateIngredientDialog
+      <CreateRecipeDialog
         open={openCreateDialog}
         setOpen={setOpenCreateDialog}
       />
