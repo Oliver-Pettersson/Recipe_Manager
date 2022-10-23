@@ -48,7 +48,7 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
                   label="name"
                   name="name"
                 />
-                <IngredientInputList />
+                <IngredientInputList setFormikFieldValue={(value) => setFieldValue("ingredients", value)} />
               </DialogContent>
               <DialogActions>
                 <MuiButton onClick={handleClose}>Cancel</MuiButton>

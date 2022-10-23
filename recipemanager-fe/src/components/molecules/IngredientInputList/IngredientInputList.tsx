@@ -1,11 +1,16 @@
 import { IconButton } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
 import IngredientsSearchBar from "../IngredientsSearchBar/IngredientsSearchBar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
+import Ingredient from "../../../types/Ingredient/Ingredient";
 
-export default function IngredientInputList() {
+interface PropsType {
+  setFormikFieldValue: (value: Ingredient[]) => void
+}
+
+export default function IngredientInputList({setFormikFieldValue} : PropsType) {
   const defaultItem = {
     food: {
       id: "",
@@ -19,6 +24,10 @@ export default function IngredientInputList() {
   };
   const [ingredientList, setIngredientList] = useState([defaultItem]);
   console.log(ingredientList);
+  useEffect(() => {
+    setFormikFieldValue(ingredientList.map((ingredient) => {return {id: ingredient.food.id, amount: ingredient.amount}}))
+  }, [ingredientList])
+  
   return (
     <div style={{ justifyContent: "center" }}>
       {ingredientList.map((row, index) => (
@@ -29,11 +38,10 @@ export default function IngredientInputList() {
             value={row.food}
             onSelection={(value) => {
               const newArray = [...ingredientList];
-              newArray.splice(index, 1, {
+              newArray[index] = {
                 food: value,
                 amount: row.amount,
-              });
-              console.log("newArray", newArray, "index", index);
+              };
               setIngredientList(newArray);
             }}
           />
@@ -41,7 +49,15 @@ export default function IngredientInputList() {
             style={{ width: "20%" }}
             label="amount"
             fullWidth={false}
-            onChange={() => {}}
+            value={row.amount === 0 ? "" : row.amount}
+            onChange={(event) => {
+              const newArray = [...ingredientList];
+              newArray[index] = {
+                food: row.food,
+                amount: +event.currentTarget.value,
+              };
+              setIngredientList(newArray);
+            }}
           />
           {ingredientList.length > 1 && (
             <IconButton
@@ -49,7 +65,6 @@ export default function IngredientInputList() {
               onClick={() => {
                 const newArray = [...ingredientList];
                 newArray.splice(index, 1);
-                console.log("newArray", newArray, "index", index);
                 setIngredientList(newArray);
               }}
             >
