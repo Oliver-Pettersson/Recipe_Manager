@@ -9,6 +9,7 @@ import { Formik } from "formik";
 import Food from "../../../types/Food/Food";
 import * as Yup from "yup";
 import IngredientsSearchBar from "../../molecules/IngredientsSearchBar/IngredientsSearchBar";
+import FoodDisplayDTO from "../../../types/Food/FoodDisplayDTO";
 
 interface PropsType {
   open: boolean;
@@ -54,7 +55,7 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
         enableReinitialize
         validationSchema={validationSchema}
         initialValues={initialValue}
-        onSubmit={(values: Food) => {
+        onSubmit={(values: FoodDisplayDTO) => {
           console.log(values);
         }}
       >

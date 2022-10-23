@@ -4,14 +4,21 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Food from "../../../types/Food/Food";
 import Typography from "@mui/material/Typography";
 import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
-
+import { TextFieldProps, SxProps } from "@mui/material";
 interface PropsType {
   onSelection: (value: Food) => void;
+  textFieldProps?: TextFieldProps;
+  sx?: SxProps;
 }
 
-export default function IngredientsSearchBar({ onSelection }: PropsType) {
+export default function IngredientsSearchBar({
+  onSelection,
+  textFieldProps,
+  sx,
+}: PropsType) {
   const Ingredients: Food[] = [
     {
+      id: "1",
       calories: "150",
       carbs: "60",
       fat: "15",
@@ -19,6 +26,7 @@ export default function IngredientsSearchBar({ onSelection }: PropsType) {
       name: "lasagna",
     },
     {
+      id: "2",
       calories: "150",
       carbs: "60",
       fat: "15",
@@ -26,6 +34,7 @@ export default function IngredientsSearchBar({ onSelection }: PropsType) {
       name: "bread",
     },
     {
+      id: "3",
       calories: "150",
       carbs: "60",
       fat: "15",
@@ -33,6 +42,7 @@ export default function IngredientsSearchBar({ onSelection }: PropsType) {
       name: "breadcrumbs",
     },
     {
+      id: "4",
       calories: "150",
       carbs: "60",
       fat: "15",
@@ -40,6 +50,7 @@ export default function IngredientsSearchBar({ onSelection }: PropsType) {
       name: "protein bar",
     },
     {
+      id: "5",
       calories: "150",
       carbs: "60",
       fat: "15",
@@ -47,6 +58,7 @@ export default function IngredientsSearchBar({ onSelection }: PropsType) {
       name: "pudding",
     },
     {
+      id: "6",
       calories: "150",
       carbs: "60",
       fat: "15",
@@ -54,6 +66,7 @@ export default function IngredientsSearchBar({ onSelection }: PropsType) {
       name: "carrot",
     },
     {
+      id: "7",
       calories: "150",
       carbs: "60",
       fat: "15",
@@ -64,10 +77,12 @@ export default function IngredientsSearchBar({ onSelection }: PropsType) {
 
   return (
     <Autocomplete
+      sx={sx}
       onChange={(event, value) => value && onSelection(value)}
       options={Ingredients}
       disablePortal
       autoHighlight
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       getOptionLabel={(option) => option.name}
       renderOption={(props, option) => (
         <Box
@@ -84,11 +99,15 @@ export default function IngredientsSearchBar({ onSelection }: PropsType) {
               tableLayout: "fixed",
             }}
           >
-            <div style={{ justifyContent: "center", textAlign: "center", display: "table-caption"}}>
-            <Typography variant="h4" >
-              {option.name}
-            </Typography>
-          </div>
+            <div
+              style={{
+                justifyContent: "center",
+                textAlign: "center",
+                display: "table-caption",
+              }}
+            >
+              <Typography variant="h4">{option.name}</Typography>
+            </div>
             <div style={{ display: "table-row" }}>
               <Typography
                 sx={{ display: "table-cell", textAlign: "center" }}
@@ -134,6 +153,7 @@ export default function IngredientsSearchBar({ onSelection }: PropsType) {
             borderColor: "solid white",
             borderBottom: 1,
           }}
+          {...textFieldProps}
         />
       )}
     />

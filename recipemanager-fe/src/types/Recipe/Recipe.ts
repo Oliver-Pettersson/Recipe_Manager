@@ -1,7 +1,7 @@
-import FoodReferanceDTO from "../Food/FoodReferanceDTO";
+import Ingredient from "../Ingredient/Ingredient";
 
 export default interface Recipe {
     coverImage: string,
     name: string,
-    ingredients: FoodReferanceDTO[]
+    ingredients: Ingredient[]
 }

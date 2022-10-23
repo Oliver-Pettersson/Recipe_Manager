@@ -8,6 +8,7 @@ import MuiButton from "../../atoms/MuiButton/MuiButton";
 import UploadFileInput from "../../molecules/UploadFileInput/UploadFileInput";
 import { Formik } from "formik";
 import Recipe from "../../../types/Recipe/Recipe";
+import IngredientInputList from "../../molecules/IngredientInputList/IngredientInputList";
 
 interface PropsType {
   open: boolean;
@@ -22,7 +23,7 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
   return (
     <Dialog open={open} onClose={handleClose}>
       <div style={{ backgroundColor: "#37474F" }}>
-        <DialogTitle sx={{ color: "white" }}>Create Ingredient</DialogTitle>
+        <DialogTitle sx={{ color: "white" }}>Create Recipe</DialogTitle>
         <Formik
           initialValues={{ coverImage: "", name: "", ingredients: [] }}
           onSubmit={(value: Recipe) => {
@@ -47,6 +48,7 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
                   label="name"
                   name="name"
                 />
+                <IngredientInputList />
               </DialogContent>
               <DialogActions>
                 <MuiButton onClick={handleClose}>Cancel</MuiButton>
