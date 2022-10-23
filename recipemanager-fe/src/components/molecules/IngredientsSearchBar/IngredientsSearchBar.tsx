@@ -9,12 +9,14 @@ interface PropsType {
   onSelection: (value: Food) => void;
   textFieldProps?: TextFieldProps;
   sx?: SxProps;
+  value?: Food;
 }
 
 export default function IngredientsSearchBar({
   onSelection,
   textFieldProps,
   sx,
+  value
 }: PropsType) {
   const Ingredients: Food[] = [
     {
@@ -77,6 +79,7 @@ export default function IngredientsSearchBar({
 
   return (
     <Autocomplete
+    value={value}
       sx={sx}
       onChange={(event, value) => value && onSelection(value)}
       options={Ingredients}
