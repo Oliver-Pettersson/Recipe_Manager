@@ -6,7 +6,6 @@ type DataProviderProps = {
   children: React.ReactNode;
 };
 
-
 export type DataContextProps = {
   loadIngredients: () => void
   loadRecipes: () => void
