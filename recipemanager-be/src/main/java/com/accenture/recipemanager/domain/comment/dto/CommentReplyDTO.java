@@ -10,11 +10,6 @@ import java.util.List;
 public class CommentReplyDTO extends AbstractEntityDTO {
     private String referenceComment;
     private String comment;
-    private LocalDateTime timeStamp;
-
-    private User user;
-
-    private List<Comment> comments;
 
     public String getReferenceComment() {
         return referenceComment;
@@ -32,29 +27,4 @@ public class CommentReplyDTO extends AbstractEntityDTO {
         this.comment = comment;
     }
 
-    public LocalDateTime getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(LocalDateTime timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public CommentReplyDTO setUser(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public CommentReplyDTO setComments(List<Comment> comments) {
-        this.comments = comments;
-        return this;
-    }
 }

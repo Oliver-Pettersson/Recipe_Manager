@@ -7,4 +7,5 @@ import java.util.List;
 public interface IngredientService extends AbstractEntityService<Ingredient> {
     Ingredient findByValue(Ingredient ingredient);
     List<Ingredient> getAllFromUser(String userId);
+
 }

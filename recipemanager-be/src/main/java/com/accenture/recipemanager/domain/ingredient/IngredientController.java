@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/ingredient")
 public class IngredientController extends AbstractEntityController<Ingredient, IngredientDTO> {

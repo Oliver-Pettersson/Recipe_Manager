@@ -1,16 +1,16 @@
 package com.accenture.recipemanager.domain.recipe.dto;
 
 public class RateRecipeDTO {
-    private String recipeId;
+    private String recipe;
     private int rating;
     private String comment;
 
-    public String getRecipeId() {
-        return recipeId;
+    public String getRecipe() {
+        return recipe;
     }
 
-    public void setRecipeId(String recipeId) {
-        this.recipeId = recipeId;
+    public void setRecipe(String recipe) {
+        this.recipe = recipe;
     }
 
     public int getRating() {

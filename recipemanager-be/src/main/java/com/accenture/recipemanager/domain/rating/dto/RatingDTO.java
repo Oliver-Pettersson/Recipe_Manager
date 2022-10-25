@@ -2,6 +2,7 @@ package com.accenture.recipemanager.domain.rating.dto;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
 import com.accenture.recipemanager.domain.comment.Comment;
+
 import com.accenture.recipemanager.domain.recipe.Recipe;
 
 public class RatingDTO extends AbstractEntityDTO {

@@ -2,6 +2,7 @@ package com.accenture.recipemanager.domain.activitylog.dto;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
 import com.accenture.recipemanager.domain.user.User;
+
 import com.accenture.recipemanager.domain.user.dto.LimitedUserDTO;
 
 import java.time.LocalDateTime;

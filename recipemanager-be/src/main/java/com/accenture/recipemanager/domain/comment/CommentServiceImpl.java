@@ -1,5 +1,9 @@
 package com.accenture.recipemanager.domain.comment;
 
+import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
+import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Service;
 import com.accenture.recipemanager.core.error.UsernameAlreadyExistsException;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
@@ -13,16 +17,21 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
+
 @Service
 public class CommentServiceImpl extends AbstractEntityServiceImpl<Comment> implements CommentService {
     public CommentServiceImpl(AbstractEntityRepository<Comment> repository, Logger logger) {
         super(repository, logger);
     }
 
+
     @Override
     public Comment createReply(Comment comment, String referenceCommentId) {
         //save comment
         comment.setComments(new ArrayList<>());
+        comment.setTimeStamp(LocalDateTime.now() );
+        comment.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
         save(comment);
 
         //add comment to referenced comment

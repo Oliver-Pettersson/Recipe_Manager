@@ -19,6 +19,7 @@ public class ActivityLog extends AbstractEntity {
     @Column(name = "timeStamp", nullable = false)
     private LocalDateTime timeStamp;
 
+
     public ActivityLog(User user, String action, LocalDateTime timeStamp) {
         this.user = user;
         this.action = action;

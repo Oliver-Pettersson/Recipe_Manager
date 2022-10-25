@@ -13,9 +13,11 @@ import java.util.List;
 @Entity
 @Table(name = "comment")
 public class Comment extends AbstractEntity {
+
     @OneToMany(fetch=FetchType.EAGER)
     @JoinColumn(name = "comment_id")
     @Fetch(value = FetchMode.SELECT)
+
     private List<Comment> comments;
 
     @Column(name = "comment", nullable = false)
@@ -37,6 +39,7 @@ public class Comment extends AbstractEntity {
         this.comment = comment;
         this.timeStamp = timeStamp;
         this.user = user;
+
     }
 
     public List<Comment> getComments() {

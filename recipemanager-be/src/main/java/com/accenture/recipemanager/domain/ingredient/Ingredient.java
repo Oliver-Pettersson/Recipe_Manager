@@ -2,6 +2,7 @@ package com.accenture.recipemanager.domain.ingredient;
 
 import com.accenture.recipemanager.core.generic.AbstractEntity;
 import com.accenture.recipemanager.domain.nutrition.Nutrition;
+
 import com.accenture.recipemanager.domain.user.User;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -11,6 +12,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ingredient")
 public class Ingredient extends AbstractEntity {
+
+
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
@@ -28,6 +31,7 @@ public class Ingredient extends AbstractEntity {
 
     public Ingredient() {
     }
+
 
     public Ingredient(User user, String name, int weightInGram, Nutrition nutrition) {
         this.user = user;

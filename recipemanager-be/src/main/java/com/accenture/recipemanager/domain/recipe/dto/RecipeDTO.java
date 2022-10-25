@@ -2,18 +2,29 @@ package com.accenture.recipemanager.domain.recipe.dto;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
 import com.accenture.recipemanager.domain.ingredient.Ingredient;
+import com.accenture.recipemanager.domain.user.User;
+
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import java.time.LocalDateTime;
+
 import com.accenture.recipemanager.domain.rating.Rating;
 import com.accenture.recipemanager.domain.user.User;
 import com.accenture.recipemanager.domain.user.dto.LimitedUserDTO;
+
 
 import java.util.List;
 
 public class RecipeDTO extends AbstractEntityDTO {
     private String description;
+
     private String image;
     private User user;
     private List<Ingredient> ingredients;
     private List<Rating> ratings;
+
 
     public String getDescription() {
         return description;
@@ -23,6 +34,7 @@ public class RecipeDTO extends AbstractEntityDTO {
         this.description = description;
         return this;
     }
+
 
     public String getImage() {
         return image;

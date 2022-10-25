@@ -3,12 +3,10 @@ package com.accenture.recipemanager.domain.recipe;
 import com.accenture.recipemanager.core.generic.AbstractEntityController;
 import com.accenture.recipemanager.core.generic.AbstractEntityService;
 import com.accenture.recipemanager.core.generic.DTOMapper;
-import com.accenture.recipemanager.domain.comment.Comment;
-import com.accenture.recipemanager.domain.comment.CommentService;
-import com.accenture.recipemanager.domain.comment.dto.CommentDTO;
-import com.accenture.recipemanager.domain.comment.dto.CommentReplyDTO;
-import com.accenture.recipemanager.domain.recipe.dto.RateRecipeDTO;
 import com.accenture.recipemanager.domain.recipe.dto.RecipeDTO;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.accenture.recipemanager.domain.recipe.dto.RateRecipeDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +23,7 @@ public class RecipeController extends AbstractEntityController<Recipe, RecipeDTO
 
     @PostMapping("/rate")
     public ResponseEntity<RecipeDTO> addRatingToRecipe(@RequestBody RateRecipeDTO dto) {
-        if (dto == null || dto.getRecipeId() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (dto == null || dto.getRecipe() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         Recipe recipe = ((RecipeService) service).addRatingToRecipe(dto);
 

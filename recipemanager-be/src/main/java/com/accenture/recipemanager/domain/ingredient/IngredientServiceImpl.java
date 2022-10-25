@@ -53,5 +53,6 @@ private UserService userService;
         if (fromUser == null) return null;
 
         return ((IngredientRepository) repository).findByUser(fromUser);
+
     }
 }

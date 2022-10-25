@@ -13,11 +13,13 @@ public class Rating extends AbstractEntity {
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
+
     @Column(name = "rating", nullable = false)
     private int rating;
 
     public Rating() {
     }
+
 
     public Rating(Comment comment, int rating) {
         this.comment = comment;

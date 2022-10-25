@@ -2,6 +2,7 @@ package com.accenture.recipemanager.domain.recipe;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
+
 import com.accenture.recipemanager.domain.comment.Comment;
 import com.accenture.recipemanager.domain.ingredient.Ingredient;
 import com.accenture.recipemanager.domain.ingredient.IngredientService;
@@ -52,7 +53,7 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
 
     @Override
     public Recipe addRatingToRecipe(RateRecipeDTO dto) {
-        Recipe recipe = findById(dto.getRecipeId());
+        Recipe recipe = findById(dto.getRecipe());
 
         recipe.getRatings().add(ratingService.createIfNotExist(
                 new Rating().setRating(dto.getRating()).setComment(

@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
-import javax.transaction.Transactional;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
@@ -95,6 +94,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
         logger.debug("Attempting to save " + className);
 
         entity = postSave(repository.save(preSave(entity)));
+
         logger.debug("Saved " + className + " with ID '" + entity.getId() + "'");
 
         return entity;
@@ -118,7 +118,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
             BeanUtils.copyProperties(entity, foundEntity, getNullPropertyNames(entity));
             foundEntity.setId(UUID.fromString(id));
 
-            entity = save(foundEntity);
+            entity = repository.save(foundEntity);
             logger.debug("Updated " + className + " with ID '" + id);
 
             return entity;
@@ -205,6 +205,5 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
     public T findByValue(T entity) {
         return null;
     }
-
 
 }

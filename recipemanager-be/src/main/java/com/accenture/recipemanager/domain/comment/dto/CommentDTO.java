@@ -7,6 +7,7 @@ import com.accenture.recipemanager.domain.recipe.dto.RecipeDTO;
 import com.accenture.recipemanager.domain.user.User;
 import com.accenture.recipemanager.domain.user.dto.LimitedUserDTO;
 
+
 import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +18,7 @@ public class CommentDTO extends AbstractEntityDTO {
     private String comment;
 
     private LimitedUserDTO user;
+
 
     private LocalDateTime timeStamp;
 
@@ -46,6 +48,7 @@ public class CommentDTO extends AbstractEntityDTO {
         this.timeStamp = timeStamp;
         return this;
     }
+
     public LimitedUserDTO getUser() {
         return user;
     }
