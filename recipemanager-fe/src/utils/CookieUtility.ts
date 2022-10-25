@@ -1,6 +1,6 @@
 import { getCookie, removeCookie, setCookie } from "typescript-cookie";
 import { CookieAttributes } from "typescript-cookie/dist/types";
-import CookieType from "../models/Cookies";
+import CookieType from "../types/Cookies/Cookies";
 
 /**
  * CookieUtility is a wrapper class that can be used to interact with cookies.

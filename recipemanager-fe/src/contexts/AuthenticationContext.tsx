@@ -1,8 +1,7 @@
-import { message } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../config/constants/Cookies";
-import Principal from "../models/Principal";
+import Principal from "../types/Principal/Principal";
 import AuthenticationService from "../services/AuthenticationService";
 import CookieUtility from "../utils/CookieUtility";
 import JWTUtility from "../utils/JWTUtility";
@@ -78,7 +77,6 @@ export const AuthenticationContextProvider = ({
     CookieUtility.remove(ACCESS_TOKEN);
     CookieUtility.remove(REFRESH_TOKEN);
     setPrincipal(undefined);
-    message.success("Logout was successful");
   };
 
   const requestNewToken = () => {

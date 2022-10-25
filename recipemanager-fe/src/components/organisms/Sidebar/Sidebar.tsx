@@ -12,13 +12,19 @@ import React from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import FoodIcon from "../../atoms/Icons/FoodIcon";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthenticationContext";
 
 const drawerWidth = 180;
 
 export default function Sidebar() {
+  const {isProcessingAuthentication} = useAuth()
   const navigate = useNavigate();
-  return (
+  const path = useLocation().pathname;
+  const isAuth = (path === "/login" || path === "/signup");
+  return isAuth || isProcessingAuthentication ? (
+    <></>
+  ) : (
     <Drawer
       variant="permanent"
       sx={{
@@ -29,7 +35,7 @@ export default function Sidebar() {
           height: "100vh",
           backgroundColor: "#37474F",
           boxSizing: "border-box",
-          color: "#ffffff"
+          color: "#ffffff",
         },
       }}
     >

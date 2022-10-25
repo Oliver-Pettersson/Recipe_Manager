@@ -1,5 +1,5 @@
 import { REFRESH_TOKEN } from '../config/constants/Cookies';
-import User from '../models/User';
+import User from '../types/User/User';
 import CookieUtility from '../utils/CookieUtility';
 import ApiService from './ApiService'
 

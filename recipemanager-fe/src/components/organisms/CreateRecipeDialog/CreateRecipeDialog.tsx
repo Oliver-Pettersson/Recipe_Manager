@@ -9,6 +9,7 @@ import UploadFileInput from "../../molecules/UploadFileInput/UploadFileInput";
 import { Formik } from "formik";
 import Recipe from "../../../types/Recipe/Recipe";
 import IngredientInputList from "../../molecules/IngredientInputList/IngredientInputList";
+import MuiTextareaAutosize from "../../atoms/MuiTextareaAutosize/MuiTextareaAutosize";
 
 interface PropsType {
   open: boolean;
@@ -25,7 +26,7 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
       <div style={{ backgroundColor: "#37474F" }}>
         <DialogTitle sx={{ color: "white" }}>Create Recipe</DialogTitle>
         <Formik
-          initialValues={{ coverImage: "", name: "", ingredients: [] }}
+          initialValues={{ coverImage: "", name: "", ingredients: [], description: "" }}
           onSubmit={(value: Recipe) => {
             console.log(value);
           }}
@@ -43,11 +44,11 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
                 />
                 <MuiTextField
                   onChange={handleChange}
-                  autoFocus
                   id="name"
                   label="name"
                   name="name"
                 />
+                <MuiTextareaAutosize name="description" onChange={handleChange}/>
                 <IngredientInputList setFormikFieldValue={(value) => setFieldValue("ingredients", value)} />
               </DialogContent>
               <DialogActions>
