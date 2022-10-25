@@ -1,69 +1,18 @@
 import { Box, Paper } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useData } from "../../../contexts/DataContext";
+import Food from "../../../types/Food/Food";
 import CreateIngredientDialog from "../../organisms/CreateIngredientDialog/CreateIngredientDialog";
 import MuiTable from "../../organisms/MuiTable/MuiTable";
 
 export default function IngredientsPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
-  const defaultRows = [
-    {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "potein bar",
-    },
-    {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "protein bar",
-    },
-    {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "protein bar",
-    },
-    {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "protein bar",
-    },
-    {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "protein bar",
-    },
-    {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "protein bar",
-    },
-    {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "protein bar",
-    },
-  ]
-  const [rows, setRows] = useState(defaultRows)
+  const {ingredients} = useData()
+  const [rows, setRows] = useState<Food[]>([])
+  useEffect(() => {
+    setRows(ingredients)
+  }, [ingredients])
+  
 
   return (
     <>
@@ -78,7 +27,7 @@ export default function IngredientsPage() {
           }}
         >
           <MuiTable
-          handleSearch={(value) => setRows(defaultRows.filter((row) => row.name.includes(value)))}
+          handleSearch={(value) => setRows(ingredients.filter((row) => row.name.includes(value)))}
             addIconOnClick={() => {
               setOpenCreateDialog(true);
             }}

@@ -6,7 +6,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
 import { Formik } from "formik";
-import Food from "../../../types/Food/Food";
 import * as Yup from "yup";
 import IngredientsSearchBar from "../../molecules/IngredientsSearchBar/IngredientsSearchBar";
 import FoodDisplayDTO from "../../../types/Food/FoodDisplayDTO";
@@ -23,10 +22,10 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
 
   const [initialValue, setInitialValue] = useState({
     name: "",
-    carbs: "",
-    protein: "",
-    fat: "",
-    calories: "",
+    carbs: 0,
+    protein: 0,
+    fat: 0,
+    calories: 0,
   });
 
   const validationSchema = Yup.object().shape({

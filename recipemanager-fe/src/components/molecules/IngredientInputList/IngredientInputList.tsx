@@ -14,10 +14,10 @@ export default function IngredientInputList({setFormikFieldValue} : PropsType) {
   const defaultItem = {
     food: {
       id: "",
-      calories: "",
-      carbs: "",
-      fat: "",
-      protein: "",
+      calories: 0,
+      carbs: 0,
+      fat: 0,
+      protein: 0,
       name: "",
     },
     amount: 0,

@@ -1,7 +1,8 @@
 import { Box, Paper } from "@mui/material";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import MuiTable from "../../organisms/MuiTable/MuiTable";
 import CreateRecipeDialog from "../../organisms/CreateRecipeDialog/CreateRecipeDialog";
+import { useData } from "../../../contexts/DataContext";
 
 export default function RecipesPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
@@ -63,7 +64,12 @@ export default function RecipesPage() {
       name: "protein bar",
     },
   ]
+  const {recipes} = useData()
   const [rows, setRows] = useState(defaultRows)
+  useEffect(() => {
+    console.log(recipes)
+  }, [recipes])
+  
 
   return (
     <>
