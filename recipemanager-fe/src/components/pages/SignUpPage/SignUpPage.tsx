@@ -3,10 +3,14 @@ import { Box, Paper, Typography } from "@mui/material";
 import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
 import { Formik } from "formik";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import AuthenticationService from "../../../services/AuthenticationService";
+import { useAuth } from "../../../contexts/AuthenticationContext";
 
 export default function SignUpPage() {
+  const { login } = useAuth();
+  const navigation = useNavigate();
   const validationSchema = Yup.object().shape({
     username: Yup.string()
       .required("This field can't be empty")
@@ -40,6 +44,10 @@ export default function SignUpPage() {
             initialValues={{ username: "", password: "", repeatPassword: "" }}
             onSubmit={(value) => {
               console.log(value);
+              AuthenticationService()
+                .signup({ username: value.username, password: value.password })
+                .then(() => login(value.username, value.password))
+                .then(() => navigation("/"));
             }}
           >
             {({ handleChange, submitForm, errors }) => (

@@ -26,7 +26,12 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
       <div style={{ backgroundColor: "#37474F" }}>
         <DialogTitle sx={{ color: "white" }}>Create Recipe</DialogTitle>
         <Formik
-          initialValues={{ coverImage: "", name: "", ingredients: [], description: "" }}
+          initialValues={{
+            coverImage: "",
+            name: "",
+            ingredients: [],
+            description: "",
+          }}
           onSubmit={(value: Recipe) => {
             console.log(value);
           }}
@@ -39,7 +44,7 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
                   name="coverImage"
                   label="Cover Picture"
                   handleChange={(value: string) => {
-                    setFieldValue("coverImage", value)
+                    setFieldValue("coverImage", value);
                   }}
                 />
                 <MuiTextField
@@ -48,8 +53,23 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
                   label="name"
                   name="name"
                 />
-                <MuiTextareaAutosize name="description" onChange={handleChange}/>
-                <IngredientInputList setFormikFieldValue={(value) => setFieldValue("ingredients", value)} />
+                <MuiTextareaAutosize
+                  style={{
+                    width: "100%",
+                    backgroundColor: "#102027",
+                    color: "white",
+                  }}
+                  placeholder="Recipe description"
+                  minRows={3}
+                  maxRows={5}
+                  name="description"
+                  onChange={handleChange}
+                />
+                <IngredientInputList
+                  setFormikFieldValue={(value) =>
+                    setFieldValue("ingredients", value)
+                  }
+                />
               </DialogContent>
               <DialogActions>
                 <MuiButton onClick={handleClose}>Cancel</MuiButton>
