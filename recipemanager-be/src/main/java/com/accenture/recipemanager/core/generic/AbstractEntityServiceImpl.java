@@ -93,7 +93,8 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
     public T save(T entity) {
         logger.debug("Attempting to save " + className);
 
-        entity = repository.save(preSave(entity));
+        entity = postSave(repository.save(preSave(entity)));
+
         logger.debug("Saved " + className + " with ID '" + entity.getId() + "'");
 
         return entity;
@@ -117,7 +118,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
             BeanUtils.copyProperties(entity, foundEntity, getNullPropertyNames(entity));
             foundEntity.setId(UUID.fromString(id));
 
-            entity = save(foundEntity);
+            entity = repository.save(foundEntity);
             logger.debug("Updated " + className + " with ID '" + id);
 
             return entity;
@@ -159,6 +160,10 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
         return newEntity;
     }
 
+    protected T postSave(T newEntity) {
+        return newEntity;
+    }
+
     /**
      * This method deletes the entry by the id
      *
@@ -182,4 +187,23 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
     public boolean existsById(String id) {
         return repository.existsById(UUID.fromString(id));
     }
+
+    @Override
+    public T createIfNotExist(T entity) {
+        if(entity == null) return null;
+
+        T newEntity = null;
+        if(entity.getId() != null) newEntity = findById(entity.getId().toString());
+        else newEntity = findByValue(entity);
+
+        if(newEntity == null) newEntity = create(entity);
+
+        return newEntity;
+    }
+
+    @Override
+    public T findByValue(T entity) {
+        return null;
+    }
+
 }

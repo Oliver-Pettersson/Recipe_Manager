@@ -3,20 +3,21 @@ package com.accenture.recipemanager.domain.activitylog.dto;
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
 import com.accenture.recipemanager.domain.user.User;
 
-import javax.persistence.Column;
+import com.accenture.recipemanager.domain.user.dto.LimitedUserDTO;
+
 import java.time.LocalDateTime;
 
 public class ActivityLogDTO extends AbstractEntityDTO {
-    private User userId;
+    private LimitedUserDTO user;
     private String action;
     private LocalDateTime timeStamp;
 
-    public User getUserId() {
-        return userId;
+    public LimitedUserDTO getUser() {
+        return user;
     }
 
-    public ActivityLogDTO setUserId(User userId) {
-        this.userId = userId;
+    public ActivityLogDTO setUser(User user) {
+        this.user =  (LimitedUserDTO) new LimitedUserDTO().setUsername(user.getUsername()).setId(user.getId());
         return this;
     }
 

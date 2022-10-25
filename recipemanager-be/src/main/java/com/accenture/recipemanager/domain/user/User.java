@@ -16,17 +16,10 @@ public class User extends AbstractEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "userRegisteredIngredient",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
-    private List<Ingredient> userRegisteredIngredients;
-
-    public User(String username, String password, List<Ingredient> userRegisteredIngredients) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.userRegisteredIngredients = userRegisteredIngredients;
+
     }
 
     public User() {
@@ -60,15 +53,6 @@ public class User extends AbstractEntity {
 
     public User setPassword(String password) {
         this.password = password;
-        return this;
-    }
-
-    public List<Ingredient> getUserRegisteredIngredients() {
-        return userRegisteredIngredients;
-    }
-
-    public User setUserRegisteredIngredients(List<Ingredient> userRegisteredIngredients) {
-        this.userRegisteredIngredients = userRegisteredIngredients;
         return this;
     }
 }

@@ -9,12 +9,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.time.LocalDateTime;
+
+import com.accenture.recipemanager.domain.rating.Rating;
+import com.accenture.recipemanager.domain.user.User;
+import com.accenture.recipemanager.domain.user.dto.LimitedUserDTO;
+
+
 import java.util.List;
 
 public class RecipeDTO extends AbstractEntityDTO {
     private String description;
 
+    private String image;
+    private User user;
     private List<Ingredient> ingredients;
+    private List<Rating> ratings;
+
 
     public String getDescription() {
         return description;
@@ -22,6 +32,34 @@ public class RecipeDTO extends AbstractEntityDTO {
 
     public RecipeDTO setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public RecipeDTO setImage(String image) {
+        this.image = image;
+        return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public RecipeDTO setUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public RecipeDTO setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
         return this;
     }
 

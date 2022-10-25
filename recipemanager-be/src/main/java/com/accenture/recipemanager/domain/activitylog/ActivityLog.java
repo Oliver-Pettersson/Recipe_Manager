@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "activity_log")
 public class ActivityLog extends AbstractEntity {
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = true)
-    private User userId;
+    private User user;
 
     @Column(name = "action", nullable = false, unique = false)
     private String action;
@@ -19,8 +19,9 @@ public class ActivityLog extends AbstractEntity {
     @Column(name = "timeStamp", nullable = false)
     private LocalDateTime timeStamp;
 
-    public ActivityLog(User userId, String action, LocalDateTime timeStamp) {
-        this.userId = userId;
+
+    public ActivityLog(User user, String action, LocalDateTime timeStamp) {
+        this.user = user;
         this.action = action;
         this.timeStamp = timeStamp;
     }
@@ -28,12 +29,12 @@ public class ActivityLog extends AbstractEntity {
     public ActivityLog() {
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public ActivityLog setUserId(User userId) {
-        this.userId = userId;
+    public ActivityLog setUser(User user) {
+        this.user = user;
         return this;
     }
 

@@ -2,59 +2,31 @@ package com.accenture.recipemanager.domain.rating.dto;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
 import com.accenture.recipemanager.domain.comment.Comment;
-import com.accenture.recipemanager.domain.ingredient.Ingredient;
-import com.accenture.recipemanager.domain.recipe.Recipe;
-import com.accenture.recipemanager.domain.user.User;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import java.time.LocalDateTime;
-import java.util.List;
+import com.accenture.recipemanager.domain.recipe.Recipe;
 
 public class RatingDTO extends AbstractEntityDTO {
-    private User userId;
+    private Comment comment;
 
-    private Comment commentId;
-
-    private Recipe recipeId;
-
-    private LocalDateTime timeStamp;
+    private Recipe recipe;
 
     private int rating;
 
-    public User getUserId() {
-        return userId;
+    public Comment getComment() {
+        return comment;
     }
 
-    public RatingDTO setUserId(User userId) {
-        this.userId = userId;
+    public RatingDTO setComment(Comment comment) {
+        this.comment = comment;
         return this;
     }
 
-    public Comment getCommentId() {
-        return commentId;
+    public Recipe getRecipe() {
+        return recipe;
     }
 
-    public RatingDTO setCommentId(Comment commentId) {
-        this.commentId = commentId;
-        return this;
-    }
-
-    public Recipe getRecipeId() {
-        return recipeId;
-    }
-
-    public RatingDTO setRecipeId(Recipe recipeId) {
-        this.recipeId = recipeId;
-        return this;
-    }
-
-    public LocalDateTime getTimeStamp() {
-        return timeStamp;
-    }
-
-    public RatingDTO setTimeStamp(LocalDateTime timeStamp) {
-        this.timeStamp = timeStamp;
+    public RatingDTO setRecipe(Recipe recipe) {
+        this.recipe = recipe;
         return this;
     }
 

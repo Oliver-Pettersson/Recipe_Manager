@@ -20,4 +20,7 @@ public interface AbstractEntityService<T extends AbstractEntity>{
 
     boolean existsById(String id);
 
+    T createIfNotExist(T entity);
+
+    T findByValue(T entity);
 }
