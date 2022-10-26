@@ -1,10 +1,9 @@
 import { Card } from "@mui/material";
-import CardMedia from "@mui/material/CardMedia";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
+import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import MuiButton from "../MuiButton/MuiButton";
 
 export default function RecipeCard() {
   return (
@@ -19,19 +18,19 @@ export default function RecipeCard() {
         }}
         image="/images/placeholder-image.png"
       />
-      <CardContent>
+      <CardContent sx={{backgroundColor: "#62727B", color: "white"}} >
         <Typography gutterBottom variant="h6" component="div">
           Lizard
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" >
           Lizards are a widespread group of squamate reptiles, with over 6,000
           species, ranging across all continents except Antarctica
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button sx={{ margin: "auto", color: "#63A4FF" }} size="small">
+      <CardActions sx={{backgroundColor: "#62727B"}}>
+        <MuiButton style={{margin: "auto"}}>
           Details
-        </Button>
+        </MuiButton>
       </CardActions>
     </Card>
   );

@@ -1,6 +1,6 @@
 import Food from "./Food";
 
-export default interface FoodEntityDTO {
+export default interface FoodEntity {
     id: string,
     name: string,
     nutrition: Omit<Food, 'id'|'name'>

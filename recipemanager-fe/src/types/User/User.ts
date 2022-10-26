@@ -1,5 +1,5 @@
-import Principal from "../Principal/Principal";
+import UserEntity from "./UserEntity";
 
-export default interface User extends Principal {
-    password: string,
-} 
+export default interface User extends Omit<UserEntity, 'password'> {
+    
+}

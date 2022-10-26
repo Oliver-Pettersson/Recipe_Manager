@@ -27,7 +27,7 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
         <DialogTitle sx={{ color: "white" }}>Create Recipe</DialogTitle>
         <Formik
           initialValues={{
-            coverImage: "",
+            image: "",
             name: "",
             ingredients: [],
             description: "",
@@ -44,7 +44,7 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
                   name="coverImage"
                   label="Cover Picture"
                   handleChange={(value: string) => {
-                    setFieldValue("coverImage", value);
+                    setFieldValue("image", value);
                   }}
                 />
                 <MuiTextField

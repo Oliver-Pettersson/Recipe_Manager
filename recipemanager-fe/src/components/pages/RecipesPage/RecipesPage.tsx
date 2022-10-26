@@ -3,9 +3,11 @@ import React, { useState, useRef, useEffect } from "react";
 import MuiTable from "../../organisms/MuiTable/MuiTable";
 import CreateRecipeDialog from "../../organisms/CreateRecipeDialog/CreateRecipeDialog";
 import { useData } from "../../../contexts/DataContext";
+import DetailedRecipeDialog from "../../organisms/DetailedRecipeDialog/DetailedRecipeDialog";
 
 export default function RecipesPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const defaultRows = [
     {
       id: "1",
@@ -63,13 +65,12 @@ export default function RecipesPage() {
       protein: 18,
       name: "protein bar",
     },
-  ]
-  const {recipes} = useData()
-  const [rows, setRows] = useState(defaultRows)
+  ];
+  const { recipes } = useData();
+  const [rows, setRows] = useState(defaultRows);
   useEffect(() => {
-    console.log(recipes)
-  }, [recipes])
-  
+    console.log(recipes);
+  }, [recipes]);
 
   return (
     <>
@@ -88,7 +89,9 @@ export default function RecipesPage() {
               setOpenCreateDialog(true);
             }}
             tableTitle="Recipes"
-            handleSearch={(value) => setRows(defaultRows.filter((row) => row.name.includes(value)))}
+            handleSearch={(value) =>
+              setRows(defaultRows.filter((row) => row.name.includes(value)))
+            }
             headCells={[
               {
                 id: "name",
@@ -121,7 +124,7 @@ export default function RecipesPage() {
                 label: "Protein (g)",
               },
             ]}
-            rowOnClick={(row) => {}}
+            rowOnClick={(row) => {setOpenDetailsDialog(true)}}
             rows={rows}
           />
         </Paper>
@@ -129,6 +132,10 @@ export default function RecipesPage() {
       <CreateRecipeDialog
         open={openCreateDialog}
         setOpen={setOpenCreateDialog}
+      />
+      <DetailedRecipeDialog
+        open={openDetailsDialog}
+        setOpen={setOpenDetailsDialog}
       />
     </>
   );

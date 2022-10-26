@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import IngredientsService from "../services/IngredientsService";
 import RecipesService from "../services/RecipesService";
 import Food from "../types/Food/Food";
-import FoodEntityDTO from "../types/Food/FoodEntityDTO";
+import FoodEntity from "../types/Food/FoodEntity";
 import Ingredient from "../types/Ingredient/Ingredient";
 import Recipe from "../types/Recipe/Recipe";
 import { useAuth } from "./AuthenticationContext";
@@ -38,7 +38,7 @@ export const DataContextProvider = ({ children }: DataProviderProps) => {
       .getAll()
       .then((value) =>
         setIngredients(
-          value.map((item: FoodEntityDTO) => {
+          value.map((item: FoodEntity) => {
             return { id: item.id, name: item.name, ...item.nutrition };
           })
         )
@@ -51,7 +51,7 @@ export const DataContextProvider = ({ children }: DataProviderProps) => {
         .getAllFromUser(principal.username)
         .then((value) =>
           setUserIngredients(
-            value.map((item: FoodEntityDTO) => {
+            value.map((item: FoodEntity) => {
               return { id: item.id, name: item.name, ...item.nutrition };
             })
           )
