@@ -8,7 +8,7 @@ interface PropsType {
 
 export default function CommentSection({ ratings }: PropsType) {
   return (
-    <div style={{overflowY: "scroll", height: "400px", width: "100%"}}>
+    <div style={{overflowY: "scroll", height: "250px", width: "100%"}}>
       {ratings.map((rating) => (
         <RatingSection rating={rating} />
       ))}
