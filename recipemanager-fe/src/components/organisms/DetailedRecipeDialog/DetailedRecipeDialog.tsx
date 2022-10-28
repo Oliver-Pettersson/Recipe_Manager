@@ -8,6 +8,7 @@ import {
 import React from "react";
 import RecipeEntity from "../../../types/Recipe/RecipeEntityDTO";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
+import CommentSection from "../CommentSection/CommentSection";
 
 interface PropsType {
   open: boolean;
@@ -32,6 +33,46 @@ export default function DetailedRecipeDialog({
           <Typography variant="body1">ingredients</Typography>
           <Typography variant="h3">Description</Typography>
           <Typography variant="body1">Lorem Ipsum</Typography>
+          <CommentSection
+            ratings={
+              recipeEntity
+                ? recipeEntity?.ratings
+                : [
+                    {
+                      rating: 3,
+                      comment: {
+                        comment: "Lores Ipsum",
+                        user: {username: "Reviewer Ronald"},
+                        timeStamp: new Date(),
+                        comments: [
+                          {
+                            comment: "Lores Ipsum",
+                            user: {username: "Commenter Carl"},
+                            timeStamp: new Date(),
+                            comments: [],
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      rating: 5,
+                      comment: {
+                        comment: "Ipsum Lorem",
+                        user: {username: "Reviewer Ronaldo"},
+                        timeStamp: new Date(),
+                        comments: [
+                          {
+                            comment: "Ipsum",
+                            user: {username: "Commenter Carlos"},
+                            timeStamp: new Date(),
+                            comments: [],
+                          },
+                        ],
+                      },
+                    },
+                  ]
+            }
+          />
         </DialogContent>
         <DialogActions>
           <MuiButton onClick={handleClose}>Close</MuiButton>

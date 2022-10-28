@@ -1,21 +1,22 @@
-import Ingredient from '../types/Ingredient/Ingredient';
+import Recipe from '../types/Recipe/Recipe';
 import ApiService from './ApiService';
 
-const baseURL = "/ingredient/"
+const baseURL = "/rating/"
 
-const IngredientsService = () => ({
+const RecipesService = () => ({
   getAll: async () => {
       const {data} = await ApiService.get(baseURL);
       return data;
   },
   getAllFromUser: async (username: string) => {
+    
     const {data} = await ApiService.get(baseURL + "user/" + username);
     return data;
     },
-  create:async (ingredient:Ingredient) => {
-    console.log({...ingredient})
-    return ApiService.post(baseURL, {...ingredient})
+  create:async (recipe:Recipe) => {
+    console.log({...recipe})
+    return ApiService.post(baseURL, {...recipe})
   }
 })
 
-export default IngredientsService
+export default RecipesService

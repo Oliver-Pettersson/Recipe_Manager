@@ -1,6 +1,6 @@
 import Comment from "../Comment/Comment";
 
-export default interface Rating {
+export default interface RatingType {
     rating: number,
     comment: Comment
 }

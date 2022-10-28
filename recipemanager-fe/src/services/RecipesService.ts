@@ -9,8 +9,6 @@ const RecipesService = () => ({
       return data;
   },
   getAllFromUser: async (username: string) => {
-    const params = new URLSearchParams();
-    params.append("username", username);
     const {data} = await ApiService.get(baseURL + "user/" + username);
     return data;
     },
