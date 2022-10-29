@@ -1,4 +1,4 @@
-import Ingredient from '../types/Ingredient/Ingredient';
+import CreateIngredientDTO from '../types/Ingredient/CreateIngredientDTO';
 import ApiService from './ApiService';
 
 const baseURL = "/ingredient/"
@@ -12,7 +12,7 @@ const IngredientsService = () => ({
     const {data} = await ApiService.get(baseURL + "user/" + username);
     return data;
     },
-  create:async (ingredient:Ingredient) => {
+  create:async (ingredient:CreateIngredientDTO) => {
     console.log({...ingredient})
     return ApiService.post(baseURL, {...ingredient})
   }

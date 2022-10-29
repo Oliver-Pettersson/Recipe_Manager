@@ -9,6 +9,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import IngredientsSearchBar from "../../molecules/IngredientsSearchBar/IngredientsSearchBar";
 import FoodDisplayDTO from "../../../types/Food/FoodDisplayDTO";
+import IngredientsService from "../../../services/IngredientsService";
+import { useData } from "../../../contexts/DataContext";
 
 interface PropsType {
   open: boolean;
@@ -19,6 +21,8 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const { refreshIngredients } = useData();
 
   const [initialValue, setInitialValue] = useState({
     name: "",
@@ -56,6 +60,20 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
         initialValues={initialValue}
         onSubmit={(values: FoodDisplayDTO) => {
           console.log(values);
+          IngredientsService()
+            .create({
+              name: values.name,
+              nutrition: {
+                calories: values.calories,
+                carbs: values.carbs,
+                fat: values.fat,
+                protein: values.protein,
+              },
+            })
+            .then(() => {
+              refreshIngredients();
+              handleClose();
+            });
         }}
       >
         {({ handleChange, submitForm, errors, values }) => (
@@ -63,7 +81,15 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
             <DialogTitle sx={{ color: "white" }}>Create Ingredient</DialogTitle>
             <DialogContent>
               <IngredientsSearchBar
-                onSelection={(value) => setInitialValue(value)}
+                onSelection={(value) =>
+                  setInitialValue({
+                    name: value.name,
+                    calories: value.calories,
+                    carbs: value.carbs,
+                    fat: value.fat,
+                    protein: value.protein,
+                  })
+                }
               />
               <MuiTextField
                 value={values.name}

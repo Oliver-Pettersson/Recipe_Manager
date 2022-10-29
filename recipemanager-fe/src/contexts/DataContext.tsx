@@ -3,7 +3,6 @@ import IngredientsService from "../services/IngredientsService";
 import RecipesService from "../services/RecipesService";
 import Food from "../types/Food/Food";
 import FoodEntity from "../types/Food/FoodEntity";
-import Ingredient from "../types/Ingredient/Ingredient";
 import Recipe from "../types/Recipe/Recipe";
 import { useAuth } from "./AuthenticationContext";
 
@@ -12,10 +11,9 @@ type DataProviderProps = {
 };
 
 export type DataContextProps = {
-  loadIngredients: () => void;
-  loadRecipes: () => void;
-  loadUserIngredients: () => void;
-  loadUserRecipes: () => void;
+  
+  refreshIngredients: () => void;
+  refreshRecipes: () => void;
   ingredients: Food[];
   userIngredients: Food[];
   recipes: Recipe[];
@@ -57,6 +55,12 @@ export const DataContextProvider = ({ children }: DataProviderProps) => {
           )
         );
   };
+
+  const refreshIngredients = () => {
+    loadIngredients()
+    loadUserIngredients();
+  }
+
   const loadRecipes = () => {
     RecipesService()
       .getAll()
@@ -68,6 +72,11 @@ export const DataContextProvider = ({ children }: DataProviderProps) => {
         .getAllFromUser(principal.username)
         .then((value) => setUserRecipes(value));
   };
+
+  const refreshRecipes = () => {
+    loadRecipes();
+    loadUserRecipes();
+  }
 
   useEffect(() => {
     if (principal) {
@@ -81,10 +90,8 @@ export const DataContextProvider = ({ children }: DataProviderProps) => {
   return (
     <DataContext.Provider
       value={{
-        loadIngredients: loadIngredients,
-        loadUserIngredients: loadUserIngredients,
-        loadRecipes: loadRecipes,
-        loadUserRecipes: loadUserRecipes,
+        refreshRecipes: refreshRecipes,
+        refreshIngredients: refreshIngredients,
         ingredients: ingredients,
         userIngredients: userIngredients,
         recipes: recipes,
