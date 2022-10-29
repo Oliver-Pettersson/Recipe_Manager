@@ -54,11 +54,6 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
                   name="name"
                 />
                 <MuiTextareaAutosize
-                  style={{
-                    width: "100%",
-                    backgroundColor: "#102027",
-                    color: "white",
-                  }}
                   placeholder="Recipe description"
                   minRows={3}
                   maxRows={5}

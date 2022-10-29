@@ -34,11 +34,12 @@ export default function DetailedRecipeDialog({
           <Typography variant="h3">Description</Typography>
           <Typography variant="body1">Lorem Ipsum</Typography>
           <CommentSection
+            recipeID={recipeEntity?.id || ""}
             ratings={
               recipeEntity
                 ? recipeEntity?.ratings
                 : [
-                    {
+                    { 
                       rating: 3,
                       comment: {
                         comment: "Lores Ipsum",
