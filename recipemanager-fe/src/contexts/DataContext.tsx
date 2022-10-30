@@ -4,6 +4,7 @@ import RecipesService from "../services/RecipesService";
 import Food from "../types/Food/Food";
 import FoodEntity from "../types/Food/FoodEntity";
 import Recipe from "../types/Recipe/Recipe";
+import RecipeEntity from "../types/Recipe/RecipeEntityDTO";
 import { useAuth } from "./AuthenticationContext";
 
 type DataProviderProps = {
@@ -16,8 +17,8 @@ export type DataContextProps = {
   refreshRecipes: () => void;
   ingredients: Food[];
   userIngredients: Food[];
-  recipes: Recipe[];
-  userRecipes: Recipe[];
+  recipes: RecipeEntity[];
+  userRecipes: RecipeEntity[];
 };
 
 const DataContext = createContext<DataContextProps>({} as DataContextProps);
@@ -26,9 +27,9 @@ export const useData = () => useContext(DataContext);
 
 export const DataContextProvider = ({ children }: DataProviderProps) => {
   const [ingredients, setIngredients] = useState<Food[]>([]);
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipes, setRecipes] = useState<RecipeEntity[]>([]);
   const [userIngredients, setUserIngredients] = useState<Food[]>([]);
-  const [userRecipes, setUserRecipes] = useState<Recipe[]>([]);
+  const [userRecipes, setUserRecipes] = useState<RecipeEntity[]>([]);
   const { principal } = useAuth();
 
   const loadIngredients = () => {

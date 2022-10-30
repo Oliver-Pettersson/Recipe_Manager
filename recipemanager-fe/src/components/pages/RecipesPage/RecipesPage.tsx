@@ -1,16 +1,20 @@
 import { Box, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useData } from "../../../contexts/DataContext";
+import RecipeEntity from "../../../types/Recipe/RecipeEntityDTO";
 import CreateRecipeDialog from "../../organisms/CreateRecipeDialog/CreateRecipeDialog";
 import DetailedRecipeDialog from "../../organisms/DetailedRecipeDialog/DetailedRecipeDialog";
 import MuiTable from "../../organisms/MuiTable/MuiTable";
 
 export default function RecipesPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
-  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+  const [detailsDialog, setDetailsDialog] = useState<{
+    isOpen: boolean;
+    recipe?: RecipeEntity;
+  }>({ isOpen: false, recipe: undefined });
   const defaultRows = [
     {
-      id: "1",
+      id: "b84066b6-74b6-4ebf-b11e-1d00e45e8cf4",
       calories: 150,
       carbs: 60,
       fat: 15,
@@ -18,7 +22,7 @@ export default function RecipesPage() {
       name: "potein bar",
     },
     {
-      id: "1",
+      id: "10b114f9-e15e-4c13-aa7f-49a8021cacbb",
       calories: 150,
       carbs: 60,
       fat: 15,
@@ -26,39 +30,7 @@ export default function RecipesPage() {
       name: "protein bar",
     },
     {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "protein bar",
-    },
-    {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "protein bar",
-    },
-    {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "protein bar",
-    },
-    {
-      id: "1",
-      calories: 150,
-      carbs: 60,
-      fat: 15,
-      protein: 18,
-      name: "protein bar",
-    },
-    {
-      id: "1",
+      id: "2a0401aa-e257-4f8b-a03e-88fae6f975fa",
       calories: 150,
       carbs: 60,
       fat: 15,
@@ -72,10 +44,7 @@ export default function RecipesPage() {
   useEffect(() => {
     console.log(recipes);
   }, [recipes]);
-  useEffect(() => {
-    
-  }, [userRecipes])
-  
+  useEffect(() => {}, [userRecipes]);
 
   return (
     <>
@@ -130,7 +99,13 @@ export default function RecipesPage() {
               },
             ]}
             rowOnClick={(row) => {
-              setOpenDetailsDialog(true);
+              console.log(row)
+              setDetailsDialog({
+                isOpen: true,
+                recipe: userRecipes.find(
+                  (userRecipe) => userRecipe.id === row.id
+                ),
+              });
             }}
             rows={userRows}
           />
@@ -187,7 +162,12 @@ export default function RecipesPage() {
               },
             ]}
             rowOnClick={(row) => {
-              setOpenDetailsDialog(true);
+              setDetailsDialog({
+                isOpen: true,
+                recipe: recipes.find(
+                  (item) => item.id === row.id
+                ),
+              });
             }}
             rows={rows}
           />
@@ -198,8 +178,11 @@ export default function RecipesPage() {
         setOpen={setOpenCreateDialog}
       />
       <DetailedRecipeDialog
-        open={openDetailsDialog}
-        setOpen={setOpenDetailsDialog}
+        open={detailsDialog.isOpen}
+        recipeEntity={detailsDialog.recipe}
+        setOpen={(value: boolean) =>
+          setDetailsDialog({ isOpen: value, recipe: detailsDialog.recipe })
+        }
       />
     </>
   );

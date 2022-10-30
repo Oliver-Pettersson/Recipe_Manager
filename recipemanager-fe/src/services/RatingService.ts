@@ -1,9 +1,9 @@
-import Recipe from '../types/Recipe/Recipe';
+import CreateRatingDTO from '../types/RatingType/CreateRatingDTO';
 import ApiService from './ApiService';
 
 const baseURL = "/rating/"
 
-const RecipesService = () => ({
+const RatingService = () => ({
   getAll: async () => {
       const {data} = await ApiService.get(baseURL);
       return data;
@@ -13,10 +13,10 @@ const RecipesService = () => ({
     const {data} = await ApiService.get(baseURL + "user/" + username);
     return data;
     },
-  create:async (recipe:Recipe) => {
-    console.log({...recipe})
-    return ApiService.post(baseURL, {...recipe})
+  create:async (rating:CreateRatingDTO) => {
+    console.log({...rating})
+    return ApiService.post(baseURL, {...rating})
   }
 })
 
-export default RecipesService
+export default RatingService

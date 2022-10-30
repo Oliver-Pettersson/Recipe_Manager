@@ -12,7 +12,7 @@ import CommentSection from "../CommentSection/CommentSection";
 
 interface PropsType {
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen: (value: boolean) => void;
   recipeEntity?: RecipeEntity;
 }
 
@@ -21,6 +21,7 @@ export default function DetailedRecipeDialog({
   setOpen,
   recipeEntity,
 }: PropsType) {
+  console.log("detail", recipeEntity)
   const handleClose = () => {
     setOpen(false);
   };
@@ -32,7 +33,7 @@ export default function DetailedRecipeDialog({
           <Typography variant="h3">Ingredients</Typography>
           <Typography variant="body1">ingredients</Typography>
           <Typography variant="h3">Description</Typography>
-          <Typography variant="body1">Lorem Ipsum</Typography>
+          <Typography variant="body1">{recipeEntity?.description || "Lorem Ipsum"}</Typography>
           <CommentSection
             recipeID={recipeEntity?.id || ""}
             ratings={
