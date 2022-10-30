@@ -1,21 +1,22 @@
-import React from "react";
-import { Box, Paper, Typography } from "@mui/material";
-import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
+import { Alert, Box, Paper, Snackbar, Typography } from "@mui/material";
 import { Formik } from "formik";
-import MuiButton from "../../atoms/MuiButton/MuiButton";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
 import { useAuth } from "../../../contexts/AuthenticationContext";
+import MuiButton from "../../atoms/MuiButton/MuiButton";
+import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
 
 export default function LoginPage() {
   const {login} = useAuth()
   const navigation = useNavigate()
-  const validationSchema = Yup.object().shape({
-    username: Yup.string()
-      .required("This field can't be empty")
-      .max(255, "can't be longer than 255 characters"),
-    password: Yup.string().required("This field can't be empty"),
-  });
+  const [errorMessage, setErrorMessage] = useState({isOpen: false, message: ""})
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setErrorMessage({isOpen: false, message: ""});
+  };
   return (
     <div
       style={{
@@ -36,11 +37,11 @@ export default function LoginPage() {
           }}
         >
           <Formik
-            validationSchema={validationSchema}
             initialValues={{ username: "", password: "" }}
-            onSubmit={(value) => {
+            onSubmit={(value, helpers) => {
               console.log(value);
-              login(value.username, value.password).then(() => navigation("/"))
+              login(value.username, value.password).then(() => navigation("/")).catch(({response}) => {
+                setErrorMessage({isOpen: true, message: response.data})})
             }}
           >
             {({ handleChange, submitForm, errors }) => (
@@ -90,6 +91,11 @@ export default function LoginPage() {
           </Formik>
         </Paper>
       </Box>
+      <Snackbar open={errorMessage.isOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {errorMessage.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

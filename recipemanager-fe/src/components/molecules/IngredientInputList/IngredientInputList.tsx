@@ -47,7 +47,7 @@ export default function IngredientInputList({setFormikFieldValue} : PropsType) {
           />
           <MuiTextField
             style={{ width: "20%" }}
-            label="amount"
+            label="amount in g"
             fullWidth={false}
             value={row.amount === 0 ? "" : row.amount}
             onChange={(event) => {

@@ -2,14 +2,15 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle
+    DialogTitle,
+    Typography
 } from "@mui/material";
 import { Formik } from "formik";
 import React from "react";
 import Comment from "../../../types/Comment/Comment";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
 import MuiTextareaAutosize from "../../atoms/MuiTextareaAutosize/MuiTextareaAutosize";
-  
+import * as Yup from "yup"  
   interface PropsType {
     open: boolean;
     setOpen: (value: boolean) => void;
@@ -24,11 +25,14 @@ import MuiTextareaAutosize from "../../atoms/MuiTextareaAutosize/MuiTextareaAuto
     const handleClose = () => {
       setOpen(false);
     };
+    const validationSchema = Yup.object({
+      comment: Yup.string().required("Can't be empty")
+    })
     return (
       <Dialog open={open} onClose={handleClose}>
         <div style={{ backgroundColor: "#37474F", width: "100%" }}>
-          <Formik initialValues={{ comment: "" }} onSubmit={(value) => {console.log(value)}}>
-            {({ handleChange, handleSubmit }) => (
+          <Formik validationSchema={validationSchema} initialValues={{ comment: "" }} onSubmit={(value) => {console.log(value)}}>
+            {({ handleChange, handleSubmit, errors }) => (
               <>
                 <DialogTitle sx={{ color: "white" }}>Response to {comment?.user.username || ""}</DialogTitle>
                 <DialogContent sx={{ color: "white" }}>
@@ -44,6 +48,11 @@ import MuiTextareaAutosize from "../../atoms/MuiTextareaAutosize/MuiTextareaAuto
                     placeholder="Comment"
                     onChange={handleChange}
                   />
+                  {errors.comment && (
+                  <Typography color="red" variant="caption">
+                    {errors.comment}
+                  </Typography>
+                )}
                 </DialogContent>
                 <DialogActions>
                   <MuiButton onClick={handleClose}>Close</MuiButton>

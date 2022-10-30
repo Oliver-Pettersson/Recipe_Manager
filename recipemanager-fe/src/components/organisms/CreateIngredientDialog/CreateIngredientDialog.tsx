@@ -78,7 +78,7 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
       >
         {({ handleChange, submitForm, errors, values }) => (
           <div style={{ backgroundColor: "#37474F" }}>
-            <DialogTitle sx={{ color: "white" }}>Create Ingredient</DialogTitle>
+            <DialogTitle sx={{ color: "white" }}>Add to Own Ingredient</DialogTitle>
             <DialogContent>
               <IngredientsSearchBar
                 onSelection={(value) =>
