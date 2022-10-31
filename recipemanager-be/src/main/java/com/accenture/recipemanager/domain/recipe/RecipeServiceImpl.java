@@ -65,7 +65,7 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
     }
 
     @Override
-    public List<Recipe> getAllFromUser(String userId) {
+    public List<SimpleRecipeDTO> getAllFromUser(String userId) {
         User fromUser = null;
         try {
             fromUser = userService.findById(userId);
@@ -73,14 +73,19 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
         }
         if (fromUser == null) fromUser = userService.findByUsername(userId);
         if (fromUser == null) return null;
-
-        return ((RecipeRepository) repository).findByUser(fromUser);
+        List<Recipe> recipes = ((RecipeRepository) repository).findByUser(fromUser);
+        if (recipes == null) return null;
+        return toSimpleRecipeDTO(recipes);
     }
 
     @Override
     public List<SimpleRecipeDTO> getAllRecipes() {
         List<Recipe> recipes = findAll();
         if (recipes == null) return null;
+        return toSimpleRecipeDTO(recipes);
+    }
+
+    public List<SimpleRecipeDTO> toSimpleRecipeDTO(List<Recipe> recipes) {
         List<SimpleRecipeDTO> simpleRecipeDTOS = new ArrayList<>();
         for (Recipe recipe : recipes) {
             SimpleRecipeDTO dto = new SimpleRecipeDTO().setName(recipe.getName()).setNutrition(new Nutrition().setCalories(0).setCarbs(0).setFat(0).setProtein(0));
