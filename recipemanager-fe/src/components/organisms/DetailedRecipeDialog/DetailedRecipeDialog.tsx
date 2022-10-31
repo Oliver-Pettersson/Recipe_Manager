@@ -22,59 +22,28 @@ export default function DetailedRecipeDialog({
   setOpen,
   recipeEntity,
 }: PropsType) {
-  console.log("detail", recipeEntity)
+  console.log("detail", recipeEntity);
   const handleClose = () => {
     setOpen(false);
   };
   return (
     <Dialog open={open} onClose={handleClose}>
       <div style={{ backgroundColor: "#37474F" }}>
-        <DialogTitle sx={{ color: "white" }}><Typography variant="h2">{recipeEntity?.name}</Typography></DialogTitle>
+        <DialogTitle sx={{ color: "white" }}>
+          <Typography variant="h2">{recipeEntity?.name}</Typography>
+        </DialogTitle>
         <DialogContent sx={{ color: "white" }}>
           <Typography variant="h4">Ingredients</Typography>
-          {recipeEntity && <IngredientList ingredients={recipeEntity.ingredients} />}
+          {recipeEntity && (
+            <IngredientList ingredients={recipeEntity.ingredients} />
+          )}
           <Typography variant="h4">Description</Typography>
-          <Typography variant="body1">{recipeEntity?.description || "Lorem Ipsum"}</Typography>
+          <Typography variant="body1">
+            {recipeEntity?.description || "Lorem Ipsum"}
+          </Typography>
           <CommentSection
             recipeID={recipeEntity?.id || ""}
-            defaultRatings={
-              recipeEntity
-                ? recipeEntity.ratings
-                : [
-                    { 
-                      rating: 3,
-                      comment: {
-                        comment: "Lores Ipsum",
-                        user: {username: "Reviewer Ronald"},
-                        timeStamp: "today",
-                        comments: [
-                          {
-                            comment: "Lores Ipsum",
-                            user: {username: "Commenter Carl"},
-                            timeStamp: "today",
-                            comments: [],
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      rating: 5,
-                      comment: {
-                        comment: "Ipsum Lorem",
-                        user: {username: "Reviewer Ronaldo"},
-                        timeStamp: "today",
-                        comments: [
-                          {
-                            comment: "Ipsum",
-                            user: {username: "Commenter Carlos"},
-                            timeStamp: "today",
-                            comments: [],
-                          },
-                        ],
-                      },
-                    },
-                  ]
-            }
+            defaultRatings={recipeEntity ? recipeEntity.ratings : []}
           />
         </DialogContent>
         <DialogActions>

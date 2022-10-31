@@ -8,7 +8,7 @@ const RecipesService = () => ({
   getAll: async () => {
       const {data} = await ApiService.get(baseURL + "all");
       console.log(data)
-      console.log({...data.nutrition, id: data.id, name: data.name})
+      console.log(data.map((item: SimpleRecipeDTO) => {return {...item.nutrition, id: item.id, name: item.name}}))
       return data.map((item: SimpleRecipeDTO) => {return {...item.nutrition, id: item.id, name: item.name}});
   },
   getById: async (id: string) => {

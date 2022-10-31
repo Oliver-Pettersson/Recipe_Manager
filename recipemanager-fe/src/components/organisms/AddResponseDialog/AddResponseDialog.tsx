@@ -11,17 +11,18 @@ import Comment from "../../../types/Comment/Comment";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
 import MuiTextareaAutosize from "../../atoms/MuiTextareaAutosize/MuiTextareaAutosize";
 import * as Yup from "yup"  
+import CommentService from "../../../services/CommentService";
   interface PropsType {
     open: boolean;
     setOpen: (value: boolean) => void;
-    comment?: Comment;
+    referenceComment?: Comment;
     extendedSubmit: () => void;
   }
   
   export default function AddResponseDialog({
     open,
     setOpen,
-    comment,
+    referenceComment,
     extendedSubmit
   }: PropsType) {
     const handleClose = () => {
@@ -33,10 +34,12 @@ import * as Yup from "yup"
     return (
       <Dialog open={open} onClose={handleClose}>
         <div style={{ backgroundColor: "#37474F", width: "100%" }}>
-          <Formik validationSchema={validationSchema} initialValues={{ comment: "" }} onSubmit={(value) => {extendedSubmit()}}>
+          <Formik validationSchema={validationSchema} initialValues={{ comment: "" }} onSubmit={(value) => {
+            referenceComment && CommentService().addReply({comment: value.comment, referenceComment: referenceComment?.id}).then(() => extendedSubmit()).then(() => handleClose())
+      }}>
             {({ handleChange, handleSubmit, errors }) => (
               <>
-                <DialogTitle sx={{ color: "white" }}>Response to {comment?.user.username || ""}</DialogTitle>
+                <DialogTitle sx={{ color: "white" }}>Response to {referenceComment?.user.username || ""}</DialogTitle>
                 <DialogContent sx={{ color: "white" }}>
                   <MuiTextareaAutosize
                   minRows={2}

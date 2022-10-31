@@ -48,7 +48,7 @@ export default function CommentSection({ defaultRatings, recipeID }: PropsType) 
       <AddResponseDialog
         open={responseDialog.isOpen}
         extendedSubmit={refreshCommentSection}
-        comment={responseDialog.respondingComment}
+        referenceComment={responseDialog.respondingComment}
         setOpen={(value) =>
           setResponseDialog({
             isOpen: value,

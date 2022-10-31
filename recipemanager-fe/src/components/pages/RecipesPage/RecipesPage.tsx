@@ -48,8 +48,9 @@ export default function RecipesPage() {
   const [userRows, setUserRows] = useState(userRecipes);
   useEffect(() => {
     console.log("recipes", recipes);
+    setRows(recipes)
   }, [recipes]);
-  useEffect(() => {}, [userRecipes]);
+  useEffect(() => {setUserRows(userRecipes)}, [userRecipes]);
 
   return (
     <>
