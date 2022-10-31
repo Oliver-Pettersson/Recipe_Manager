@@ -1,4 +1,5 @@
 import Ingredient from "../Ingredient/Ingredient";
+import IngredientEntity from "../Ingredient/IngredientEntity";
 import RatingType from "../RatingType/RatingType";
 
 export default interface RecipeEntity {
@@ -6,6 +7,6 @@ export default interface RecipeEntity {
     image: string,
     name: string,
     description: string,
-    ingredients: Ingredient[],
+    ingredients: IngredientEntity[],
     ratings: RatingType[]
 }

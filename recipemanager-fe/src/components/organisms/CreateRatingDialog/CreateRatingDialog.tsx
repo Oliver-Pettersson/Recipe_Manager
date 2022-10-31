@@ -15,13 +15,15 @@ import RatingService from "../../../services/RatingService";
 interface PropsType {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  recipeID?: string;
+  recipeID: string;
+  extendedSubmit: () => void;
 }
 
 export default function CreateRatingDialog({
   open,
   setOpen,
   recipeID,
+  extendedSubmit
 }: PropsType) {
   const handleClose = () => {
     setOpen(false);
@@ -41,7 +43,7 @@ export default function CreateRatingDialog({
           initialValues={{ rating: 0, comment: "" }}
           onSubmit={(value) => {
             console.log(value);
-            RatingService().create({...value, recipeID: recipeID}).then(() => handleClose())
+            RatingService().create({...value, recipe: recipeID}).then(() => extendedSubmit()).then(() => handleClose())
           }}
         >
           {({ handleChange, handleSubmit, errors }) => (

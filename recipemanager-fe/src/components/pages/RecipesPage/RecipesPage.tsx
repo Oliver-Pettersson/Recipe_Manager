@@ -1,7 +1,9 @@
 import { Box, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useData } from "../../../contexts/DataContext";
+import RecipesService from "../../../services/RecipesService";
 import RecipeEntity from "../../../types/Recipe/RecipeEntityDTO";
+import DisplayRecipeDTO from "../../../types/Recipe/DisplayRecipeDTO";
 import CreateRecipeDialog from "../../organisms/CreateRecipeDialog/CreateRecipeDialog";
 import DetailedRecipeDialog from "../../organisms/DetailedRecipeDialog/DetailedRecipeDialog";
 import MuiTable from "../../organisms/MuiTable/MuiTable";
@@ -38,11 +40,14 @@ export default function RecipesPage() {
       name: "protein bar",
     },
   ];
+  const getDetailedRecipe = (value: DisplayRecipeDTO) => {
+    return RecipesService().getById(value.id)
+  }
   const { recipes, userRecipes } = useData();
-  const [rows, setRows] = useState(defaultRows);
-  const [userRows, setUserRows] = useState(defaultRows);
+  const [rows, setRows] = useState(recipes);
+  const [userRows, setUserRows] = useState(userRecipes);
   useEffect(() => {
-    console.log(recipes);
+    console.log("recipes", recipes);
   }, [recipes]);
   useEffect(() => {}, [userRecipes]);
 
@@ -100,12 +105,14 @@ export default function RecipesPage() {
             ]}
             rowOnClick={(row) => {
               console.log(row)
-              setDetailsDialog({
+              const foundItem = userRecipes.find(
+                (userRecipe) => userRecipe.id === row.id
+              )
+              if (foundItem === undefined) return;
+              getDetailedRecipe(foundItem).then((value) => setDetailsDialog({
                 isOpen: true,
-                recipe: userRecipes.find(
-                  (userRecipe) => userRecipe.id === row.id
-                ),
-              });
+                recipe: value,
+              }))
             }}
             rows={userRows}
           />
@@ -162,12 +169,15 @@ export default function RecipesPage() {
               },
             ]}
             rowOnClick={(row) => {
-              setDetailsDialog({
+              console.log(row)
+              const foundItem = recipes.find(
+                (item) => item.id === row.id
+              )
+              if (foundItem === undefined) return;
+              getDetailedRecipe(foundItem).then((value) => setDetailsDialog({
                 isOpen: true,
-                recipe: recipes.find(
-                  (item) => item.id === row.id
-                ),
-              });
+                recipe: value,
+              }))
             }}
             rows={rows}
           />

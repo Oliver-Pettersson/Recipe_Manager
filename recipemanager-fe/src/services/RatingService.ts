@@ -15,7 +15,7 @@ const RatingService = () => ({
     },
   create:async (rating:CreateRatingDTO) => {
     console.log({...rating})
-    return ApiService.post(baseURL, {...rating})
+    return ApiService.post("/recipe" + baseURL, {...rating})
   }
 })
 

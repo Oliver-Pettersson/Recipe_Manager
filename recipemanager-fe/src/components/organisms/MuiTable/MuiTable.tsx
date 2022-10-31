@@ -16,14 +16,11 @@ import { visuallyHidden } from "@mui/utils";
 import * as React from "react";
 import "./MuiTable.css";
 import SearchBar from "../../atoms/SearchBar/SearchBar";
+import Nutrition from "../../../types/Nutrition/Nutrition";
 
-interface Data {
+interface Data extends Nutrition {
   id: string;
-  calories: number;
-  carbs: number;
-  fat: number;
-  name: string;
-  protein: number;
+  name: string
 }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {

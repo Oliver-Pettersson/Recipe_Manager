@@ -15,12 +15,14 @@ import * as Yup from "yup"
     open: boolean;
     setOpen: (value: boolean) => void;
     comment?: Comment;
+    extendedSubmit: () => void;
   }
   
   export default function AddResponseDialog({
     open,
     setOpen,
     comment,
+    extendedSubmit
   }: PropsType) {
     const handleClose = () => {
       setOpen(false);
@@ -31,7 +33,7 @@ import * as Yup from "yup"
     return (
       <Dialog open={open} onClose={handleClose}>
         <div style={{ backgroundColor: "#37474F", width: "100%" }}>
-          <Formik validationSchema={validationSchema} initialValues={{ comment: "" }} onSubmit={(value) => {console.log(value)}}>
+          <Formik validationSchema={validationSchema} initialValues={{ comment: "" }} onSubmit={(value) => {extendedSubmit()}}>
             {({ handleChange, handleSubmit, errors }) => (
               <>
                 <DialogTitle sx={{ color: "white" }}>Response to {comment?.user.username || ""}</DialogTitle>

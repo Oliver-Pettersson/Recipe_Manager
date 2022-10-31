@@ -8,9 +8,9 @@ interface PropsType {
 }
 
 export default function MuiComment({ comment, responseTo }: PropsType) {
-  const dateToString = (date: Date) => {
-    let dateString = date.toLocaleString();
-    return dateString.substring(0, dateString.length - 3);
+  const dateToString = (date: string) => {
+    
+    return date.substring(0, date.length - 3);
   };
   return (
     <Grid container wrap="nowrap" spacing={2}>
