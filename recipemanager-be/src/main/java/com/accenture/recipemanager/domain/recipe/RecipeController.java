@@ -26,7 +26,7 @@ public class RecipeController extends AbstractEntityController<Recipe, RecipeDTO
         this.allRecipesMapper = allRecipesMapper;
     }
 
-    @PostMapping("/rate")
+    @PostMapping("/rating")
     public ResponseEntity<RecipeDTO> addRatingToRecipe(@RequestBody RateRecipeDTO dto) {
         if (dto == null || dto.getRecipe() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 

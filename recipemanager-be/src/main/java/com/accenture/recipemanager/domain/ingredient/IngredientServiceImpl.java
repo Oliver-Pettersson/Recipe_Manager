@@ -31,8 +31,8 @@ private UserService userService;
 
         if (nutrition == null) nutrition = nutritionService.save(ingredient.getNutrition());
 
-        return ((IngredientRepository) repository).findByNameAndWeightInGramAndNutrition(
-                ingredient.getName(), ingredient.getWeightInGram(), nutritionService.findByValue(nutrition));
+        return ((IngredientRepository) repository).findByNameAndNutrition(
+                ingredient.getName(), nutritionService.findByValue(nutrition));
     }
 
     @Override
