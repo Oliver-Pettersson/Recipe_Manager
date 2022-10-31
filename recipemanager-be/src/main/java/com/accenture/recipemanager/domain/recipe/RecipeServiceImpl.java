@@ -6,8 +6,10 @@ import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
 import com.accenture.recipemanager.domain.comment.Comment;
 import com.accenture.recipemanager.domain.ingredient.Ingredient;
 import com.accenture.recipemanager.domain.ingredient.IngredientService;
+import com.accenture.recipemanager.domain.nutrition.Nutrition;
 import com.accenture.recipemanager.domain.rating.Rating;
 import com.accenture.recipemanager.domain.rating.RatingService;
+import com.accenture.recipemanager.domain.recipe.dto.SimpleRecipeDTO;
 import com.accenture.recipemanager.domain.recipe.dto.RateRecipeDTO;
 import com.accenture.recipemanager.domain.user.User;
 import com.accenture.recipemanager.domain.user.UserService;
@@ -73,5 +75,25 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
         if (fromUser == null) return null;
 
         return ((RecipeRepository) repository).findByUser(fromUser);
+    }
+
+    @Override
+    public List<SimpleRecipeDTO> getAllRecipes() {
+        List<Recipe> recipes = findAll();
+        if (recipes == null) return null;
+        List<SimpleRecipeDTO> simpleRecipeDTOS = new ArrayList<>();
+        for (Recipe recipe : recipes) {
+            SimpleRecipeDTO dto = new SimpleRecipeDTO().setName(recipe.getName()).setNutrition(new Nutrition().setCalories(0).setCarbs(0).setFat(0).setProtein(0));
+            dto.setId(recipe.getId());
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                dto.getNutrition().setCalories(dto.getNutrition().getCalories() + (ingredient.getWeightInGram() / 100) * ingredient.getNutrition().getCalories());
+                dto.getNutrition().setFat(dto.getNutrition().getFat() + (ingredient.getWeightInGram() / 100) * ingredient.getNutrition().getFat());
+                dto.getNutrition().setCarbs(dto.getNutrition().getCarbs() + (ingredient.getWeightInGram() / 100) * ingredient.getNutrition().getCarbs());
+                dto.getNutrition().setProtein(dto.getNutrition().getProtein() + (ingredient.getWeightInGram() / 100) * ingredient.getNutrition().getProtein());
+            }
+            simpleRecipeDTOS.add(dto);
+        }
+
+        return simpleRecipeDTOS;
     }
 }

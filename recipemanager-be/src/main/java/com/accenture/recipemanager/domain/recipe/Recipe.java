@@ -15,6 +15,9 @@ public class Recipe extends AbstractEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "image", columnDefinition = "text")
     private String image;
 
@@ -25,7 +28,6 @@ public class Recipe extends AbstractEntity {
 
     @ManyToMany(fetch=FetchType.EAGER)
     @Fetch(value = FetchMode.SELECT)
-
     @JoinTable(
             name = "ingredients_recipe",
             joinColumns = @JoinColumn(name = "recipe_id"),
@@ -93,4 +95,12 @@ public class Recipe extends AbstractEntity {
         return this;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Recipe setName(String name) {
+        this.name = name;
+        return this;
+    }
 }

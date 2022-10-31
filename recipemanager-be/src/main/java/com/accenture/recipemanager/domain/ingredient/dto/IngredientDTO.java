@@ -3,13 +3,10 @@ package com.accenture.recipemanager.domain.ingredient.dto;
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
 import com.accenture.recipemanager.domain.nutrition.Nutrition;
 
-import com.accenture.recipemanager.domain.user.User;
-
 public class IngredientDTO extends AbstractEntityDTO {
     private String name;
     private int weightInGram;
     private Nutrition nutrition;
-    private User user;
 
 
     public String getName() {
@@ -40,14 +37,4 @@ public class IngredientDTO extends AbstractEntityDTO {
         this.nutrition = nutrition;
         return this;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public IngredientDTO setUser(User user) {
-        this.user = user;
-        return this;
-    }
-
 }

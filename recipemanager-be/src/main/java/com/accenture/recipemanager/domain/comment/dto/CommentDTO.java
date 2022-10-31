@@ -19,7 +19,6 @@ public class CommentDTO extends AbstractEntityDTO {
 
     private LimitedUserDTO user;
 
-
     private LocalDateTime timeStamp;
 
     public List<Comment> getComments() {
