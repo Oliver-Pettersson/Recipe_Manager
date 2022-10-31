@@ -4,13 +4,13 @@ import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
 
 import com.accenture.recipemanager.domain.comment.Comment;
-import com.accenture.recipemanager.domain.ingredient.Ingredient;
-import com.accenture.recipemanager.domain.ingredient.IngredientService;
 import com.accenture.recipemanager.domain.nutrition.Nutrition;
 import com.accenture.recipemanager.domain.rating.Rating;
 import com.accenture.recipemanager.domain.rating.RatingService;
 import com.accenture.recipemanager.domain.recipe.dto.SimpleRecipeDTO;
 import com.accenture.recipemanager.domain.recipe.dto.RateRecipeDTO;
+import com.accenture.recipemanager.domain.recipeingredient.RecipeIngredient;
+import com.accenture.recipemanager.domain.recipeingredient.RecipeIngredientService;
 import com.accenture.recipemanager.domain.user.User;
 import com.accenture.recipemanager.domain.user.UserService;
 import org.slf4j.Logger;
@@ -22,13 +22,13 @@ import java.util.List;
 
 @Service
 public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> implements RecipeService {
-    private IngredientService ingredientService;
+    private RecipeIngredientService recipeIngredientService;
     private RatingService ratingService;
     private UserService userService;
 
-    public RecipeServiceImpl(AbstractEntityRepository<Recipe> repository, Logger logger, IngredientService ingredientService, RatingService ratingService, UserService userService) {
+    public RecipeServiceImpl(AbstractEntityRepository<Recipe> repository, Logger logger, RecipeIngredientService recipeIngredientService, RatingService ratingService, UserService userService) {
         super(repository, logger);
-        this.ingredientService = ingredientService;
+        this.recipeIngredientService = recipeIngredientService;
         this.ratingService = ratingService;
         this.userService = userService;
     }
@@ -42,13 +42,13 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
         newEntity.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
         //lookup ingredients
-        List<Ingredient> ingredients = new ArrayList<>();
-        for (Ingredient ingredient : newEntity.getIngredients()) {
-            ingredient = ingredientService.createIfNotExist(ingredient);
+        List<RecipeIngredient> ingredients = new ArrayList<>();
+        for (RecipeIngredient ingredient : newEntity.getRecipeIngredients()) {
+            ingredient = recipeIngredientService.createIfNotExist(ingredient);
             if (ingredient != null) ingredients.add(ingredient);
         }
 
-        newEntity.setIngredients(ingredients);
+        newEntity.setRecipeIngredients(ingredients);
 
         return super.preSave(newEntity);
     }
@@ -85,11 +85,11 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
         for (Recipe recipe : recipes) {
             SimpleRecipeDTO dto = new SimpleRecipeDTO().setName(recipe.getName()).setNutrition(new Nutrition().setCalories(0).setCarbs(0).setFat(0).setProtein(0));
             dto.setId(recipe.getId());
-            for (Ingredient ingredient : recipe.getIngredients()) {
-                dto.getNutrition().setCalories(dto.getNutrition().getCalories() + (ingredient.getWeightInGram() / 100) * ingredient.getNutrition().getCalories());
-                dto.getNutrition().setFat(dto.getNutrition().getFat() + (ingredient.getWeightInGram() / 100) * ingredient.getNutrition().getFat());
-                dto.getNutrition().setCarbs(dto.getNutrition().getCarbs() + (ingredient.getWeightInGram() / 100) * ingredient.getNutrition().getCarbs());
-                dto.getNutrition().setProtein(dto.getNutrition().getProtein() + (ingredient.getWeightInGram() / 100) * ingredient.getNutrition().getProtein());
+            for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
+                dto.getNutrition().setCalories(dto.getNutrition().getCalories() + (recipeIngredient.getWeightInGram() / 100) * recipeIngredient.getIngredient().getNutrition().getCalories());
+                dto.getNutrition().setFat(dto.getNutrition().getFat() + (recipeIngredient.getWeightInGram() / 100) * recipeIngredient.getIngredient().getNutrition().getFat());
+                dto.getNutrition().setCarbs(dto.getNutrition().getCarbs() + (recipeIngredient.getWeightInGram() / 100) * recipeIngredient.getIngredient().getNutrition().getCarbs());
+                dto.getNutrition().setProtein(dto.getNutrition().getProtein() + (recipeIngredient.getWeightInGram() / 100) * recipeIngredient.getIngredient().getNutrition().getProtein());
             }
             simpleRecipeDTOS.add(dto);
         }

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface IngredientRepository extends AbstractEntityRepository<Ingredient> {
-    Ingredient findByNameAndWeightInGramAndNutrition(String Name, int weightInGram, Nutrition nutrition);
+    Ingredient findByNameAndNutrition(String Name, Nutrition nutrition);
     List<Ingredient> findByUser(User user);
 
 }

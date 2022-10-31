@@ -12,17 +12,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ingredient")
 public class Ingredient extends AbstractEntity {
-
-
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "weight_in_gram", nullable = false)
-    private int weightInGram;
 
     @ManyToOne(cascade = CascadeType.DETACH,fetch=FetchType.EAGER)
     @JoinColumn(name = "nutrition_id", nullable = false)
@@ -33,10 +28,9 @@ public class Ingredient extends AbstractEntity {
     }
 
 
-    public Ingredient(User user, String name, int weightInGram, Nutrition nutrition) {
+    public Ingredient(User user, String name, Nutrition nutrition) {
         this.user = user;
         this.name = name;
-        this.weightInGram = weightInGram;
         this.nutrition = nutrition;
     }
 
@@ -55,15 +49,6 @@ public class Ingredient extends AbstractEntity {
 
     public Ingredient setNutrition(Nutrition nutrition) {
         this.nutrition = nutrition;
-        return this;
-    }
-
-    public int getWeightInGram() {
-        return weightInGram;
-    }
-
-    public Ingredient setWeightInGram(int weightInGram) {
-        this.weightInGram = weightInGram;
         return this;
     }
 

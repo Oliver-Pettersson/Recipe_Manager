@@ -1,9 +1,9 @@
 package com.accenture.recipemanager.domain.recipe;
 
 import com.accenture.recipemanager.core.generic.AbstractEntity;
-import com.accenture.recipemanager.domain.ingredient.Ingredient;
 
 import com.accenture.recipemanager.domain.rating.Rating;
+import com.accenture.recipemanager.domain.recipeingredient.RecipeIngredient;
 import com.accenture.recipemanager.domain.user.User;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -26,24 +26,21 @@ public class Recipe extends AbstractEntity {
     @Fetch(value = FetchMode.SELECT)
     private User user;
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @OneToMany(fetch=FetchType.EAGER)
+    @JoinColumn(name = "recipe_id")
     @Fetch(value = FetchMode.SELECT)
-    @JoinTable(
-            name = "ingredients_recipe",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
-    private List<Ingredient> ingredients;
+    private List<RecipeIngredient> recipeIngredients;
 
     @OneToMany(cascade = CascadeType.DETACH,fetch=FetchType.EAGER)
     @JoinColumn(name = "recipe_id")
     @Fetch(value = FetchMode.SELECT)
     private List<Rating> ratings;
 
-    public Recipe(String description, String image, User user, List<Ingredient> ingredients, List<Rating> ratings) {
+    public Recipe(String description, String image, User user, List<RecipeIngredient> recipeIngredients, List<Rating> ratings) {
         this.description = description;
         this.image = image;
         this.user = user;
-        this.ingredients = ingredients;
+        this.recipeIngredients = recipeIngredients;
         this.ratings = ratings;
     }
 
@@ -59,12 +56,12 @@ public class Recipe extends AbstractEntity {
         return this;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
     }
 
-    public Recipe setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public Recipe setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
         return this;
     }
 

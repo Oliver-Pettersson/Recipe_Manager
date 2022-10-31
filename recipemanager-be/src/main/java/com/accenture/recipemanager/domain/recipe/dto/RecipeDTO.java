@@ -1,8 +1,8 @@
 package com.accenture.recipemanager.domain.recipe.dto;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
-import com.accenture.recipemanager.domain.ingredient.Ingredient;
 import com.accenture.recipemanager.domain.rating.Rating;
+import com.accenture.recipemanager.domain.recipeingredient.RecipeIngredient;
 import com.accenture.recipemanager.domain.user.User;
 
 import java.util.List;
@@ -12,9 +12,12 @@ public class RecipeDTO extends AbstractEntityDTO {
     private String name;
     private String image;
     private User user;
-    private List<Ingredient> ingredients;
     private List<Rating> ratings;
 
+    private List<RecipeIngredient> recipeIngredients;
+
+    public RecipeDTO() {
+    }
 
     public String getDescription() {
         return description;
@@ -61,12 +64,12 @@ public class RecipeDTO extends AbstractEntityDTO {
         return this;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
     }
 
-    public RecipeDTO setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public RecipeDTO setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
         return this;
     }
 }
