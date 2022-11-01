@@ -11,5 +11,5 @@ public interface RecipeService extends AbstractEntityService<Recipe> {
 
     List<SimpleRecipeDTO> getAllRecipes();
 
-    List<Recipe> getAllFromUser(String userId);
+    List<SimpleRecipeDTO> getAllFromUser(String userId);
 }

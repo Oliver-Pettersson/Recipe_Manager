@@ -36,10 +36,10 @@ public class RecipeController extends AbstractEntityController<Recipe, RecipeDTO
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<Collection<RecipeDTO>> getAllFromUser(@PathVariable String userId) {
-        List<Recipe> recipes = ((RecipeService) service).getAllFromUser(userId);
+    public ResponseEntity<Collection<SimpleRecipeDTO>> getAllFromUser(@PathVariable String userId) {
+        List<SimpleRecipeDTO> recipes = ((RecipeService) service).getAllFromUser(userId);
 
-        return new ResponseEntity<>(mapper.toDTOs(recipes), HttpStatus.CREATED);
+        return new ResponseEntity<>(recipes, HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
