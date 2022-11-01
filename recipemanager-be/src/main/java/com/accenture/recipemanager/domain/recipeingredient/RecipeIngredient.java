@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "recipe_ingredient")
 public class RecipeIngredient extends AbstractEntity {
     @ManyToOne(fetch= FetchType.EAGER)
-    @JoinColumn(name = "ingredient_id")
+    @JoinColumn(name = "ingredient_id", nullable = false)
     private Ingredient ingredient;
 
     @Column(name = "weight_in_gram", nullable = false)

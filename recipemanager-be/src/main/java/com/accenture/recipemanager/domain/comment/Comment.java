@@ -14,7 +14,7 @@ import java.util.List;
 public class Comment extends AbstractEntity {
 
     @OneToMany(fetch=FetchType.EAGER)
-    @JoinColumn(name = "comment_id")
+    @JoinColumn(name = "comment_id", nullable = false)
     @Fetch(value = FetchMode.SELECT)
 
     private List<Comment> comments;
