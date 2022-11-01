@@ -6,10 +6,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
 import { Formik } from "formik";
-import Food from "../../../types/Food/Food";
 import * as Yup from "yup";
 import IngredientsSearchBar from "../../molecules/IngredientsSearchBar/IngredientsSearchBar";
 import FoodDisplayDTO from "../../../types/Food/FoodDisplayDTO";
+import IngredientsService from "../../../services/IngredientsService";
+import { useData } from "../../../contexts/DataContext";
 
 interface PropsType {
   open: boolean;
@@ -21,32 +22,30 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
     setOpen(false);
   };
 
+  const { refreshIngredients } = useData();
+
   const [initialValue, setInitialValue] = useState({
     name: "",
-    carbs: "",
-    protein: "",
-    fat: "",
-    calories: "",
+    carbs: 0,
+    protein: 0,
+    fat: 0,
+    calories: 0,
   });
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Can't be empty").max(255, "name is too long"),
     calories: Yup.number()
       .typeError("Value must be a number")
-      .required("Can't be empty")
-      .positive("Must be greater than zero"),
+      .required("Can't be empty"),
     carbs: Yup.number()
       .typeError("Value must be a number")
-      .required("Can't be empty")
-      .positive("Must be greater than zero"),
+      .required("Can't be empty"),
     fat: Yup.number()
       .typeError("Value must be a number")
-      .required("Can't be empty")
-      .positive("Must be greater than zero"),
+      .required("Can't be empty"),
     protein: Yup.number()
       .typeError("Value must be a number")
-      .required("Can't be empty")
-      .positive("Must be greater than zero"),
+      .required("Can't be empty"),
   });
 
   return (
@@ -56,15 +55,36 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
         validationSchema={validationSchema}
         initialValues={initialValue}
         onSubmit={(values: FoodDisplayDTO) => {
-          console.log(values);
+          IngredientsService()
+            .create({
+              name: values.name,
+              nutrition: {
+                calories: values.calories,
+                carbs: values.carbs,
+                fat: values.fat,
+                protein: values.protein,
+              },
+            })
+            .then(() => {
+              refreshIngredients();
+              handleClose();
+            });
         }}
       >
         {({ handleChange, submitForm, errors, values }) => (
           <div style={{ backgroundColor: "#37474F" }}>
-            <DialogTitle sx={{ color: "white" }}>Create Ingredient</DialogTitle>
+            <DialogTitle sx={{ color: "white" }}>Add to Own Ingredient</DialogTitle>
             <DialogContent>
               <IngredientsSearchBar
-                onSelection={(value) => setInitialValue(value)}
+                onSelection={(value) =>
+                  setInitialValue({
+                    name: value.name,
+                    calories: value.calories,
+                    carbs: value.carbs,
+                    fat: value.fat,
+                    protein: value.protein,
+                  })
+                }
               />
               <MuiTextField
                 value={values.name}

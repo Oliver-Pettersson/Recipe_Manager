@@ -1,12 +1,29 @@
-import React from 'react'
-import Carousel from 'react-material-ui-carousel'
-import CarouselItem from '../../molecules/CarouselItem/CarouselItem'
+import React, { useEffect, useState } from "react";
+import Carousel from "react-material-ui-carousel";
+import RecipesService from "../../../services/RecipesService";
+import Recipe from "../../../types/Recipe/Recipe";
+import CarouselItem from "../../molecules/CarouselItem/CarouselItem";
 
 export default function RecipeCarousel() {
-  const items = [1, 2]  
+  const [carouselRecipes, setCarouselRecipes] = useState<Recipe[]>([]);
+  const splitCarouselItems = () =>
+    carouselRecipes.length >= 3
+      ? [carouselRecipes.slice(0, 3), carouselRecipes.slice(3)]
+      : [];
+
+  useEffect(() => {
+    RecipesService()
+      .getCarouselItems()
+      .then((items) => {
+        setCarouselRecipes(items);
+      });
+  }, []);
+
   return (
-    <Carousel  sx={{width: "80%"}}>
-      {items.map((index) => <CarouselItem key={index} />)}
+    <Carousel sx={{ width: "80%" }}>
+      {splitCarouselItems().map((item, index) => (
+        <CarouselItem recipes={item} key={index} />
+      ))}
     </Carousel>
-  )
+  );
 }

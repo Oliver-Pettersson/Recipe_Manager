@@ -11,6 +11,7 @@ import {
 import React from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import ReceiptIcon from "@mui/icons-material/Receipt";
+import LogoutIcon from "@mui/icons-material/Logout"
 import FoodIcon from "../../atoms/Icons/FoodIcon";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthenticationContext";
@@ -18,7 +19,7 @@ import { useAuth } from "../../../contexts/AuthenticationContext";
 const drawerWidth = 180;
 
 export default function Sidebar() {
-  const {isProcessingAuthentication} = useAuth()
+  const {isProcessingAuthentication, logout} = useAuth()
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const isAuth = (path === "/login" || path === "/signup");
@@ -64,6 +65,14 @@ export default function Sidebar() {
                 <FoodIcon color="#ffffff" />
               </ListItemIcon>
               <ListItemText primary={"Ingredients"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key={"Logout"} disablePadding>
+            <ListItemButton onClick={logout}>
+              <ListItemIcon>
+                <LogoutIcon htmlColor="#ffffff" />
+              </ListItemIcon>
+              <ListItemText primary={"Logout"} />
             </ListItemButton>
           </ListItem>
         </List>

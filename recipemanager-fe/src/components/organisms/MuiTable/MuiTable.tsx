@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
-import { alpha } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -16,14 +15,13 @@ import { visuallyHidden } from "@mui/utils";
 import * as React from "react";
 import "./MuiTable.css";
 import SearchBar from "../../atoms/SearchBar/SearchBar";
+import Nutrition from "../../../types/Nutrition/Nutrition";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-interface Data {
+
+interface Data extends Nutrition {
   id: string;
-  calories: number;
-  carbs: number;
-  fat: number;
   name: string;
-  protein: number;
 }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -73,7 +71,6 @@ interface HeadCell {
   label: string;
   numeric: boolean;
 }
-
 
 interface EnhancedTableProps {
   onRequestSort: (
@@ -151,10 +148,10 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       >
         {tableTitle}
       </Typography>
-      <SearchBar onChange={handleSearch}/>
-        <IconButton onClick={addIconOnClick}>
-          <AddIcon sx={{color: "#63A4FF"}} />
-        </IconButton>
+      <SearchBar onChange={handleSearch} />
+      <IconButton onClick={addIconOnClick}>
+        <AddIcon sx={{ color: "#63A4FF" }} />
+      </IconButton>
     </Toolbar>
   );
 };
@@ -166,9 +163,18 @@ interface MuiTableProps {
   headCells: HeadCell[];
   tableTitle: string;
   handleSearch: (value: string) => void;
+  deleteFunction?: (id: string) => void;
 }
 
-export default function MuiTable({ rows, rowOnClick, headCells, addIconOnClick, tableTitle, handleSearch }: MuiTableProps) {
+export default function MuiTable({
+  rows,
+  rowOnClick,
+  headCells,
+  addIconOnClick,
+  tableTitle,
+  handleSearch,
+  deleteFunction,
+}: MuiTableProps) {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
   const [page, setPage] = React.useState(0);
@@ -201,7 +207,11 @@ export default function MuiTable({ rows, rowOnClick, headCells, addIconOnClick, 
 
   return (
     <>
-      <EnhancedTableToolbar handleSearch={handleSearch} addIconOnClick={addIconOnClick} tableTitle={tableTitle} />
+      <EnhancedTableToolbar
+        handleSearch={handleSearch}
+        addIconOnClick={addIconOnClick}
+        tableTitle={tableTitle}
+      />
       <TableContainer>
         <Table
           sx={{ minWidth: 750 }}
@@ -209,7 +219,7 @@ export default function MuiTable({ rows, rowOnClick, headCells, addIconOnClick, 
           size={dense ? "small" : "medium"}
         >
           <EnhancedTableHead
-          headCells={headCells}
+            headCells={headCells}
             order={order}
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
@@ -225,7 +235,7 @@ export default function MuiTable({ rows, rowOnClick, headCells, addIconOnClick, 
                 return (
                   <TableRow
                     hover
-                    onClick={() => rowOnClick(row)}
+                    onClick={(event) => rowOnClick(row)}
                     role="checkbox"
                     tabIndex={-1}
                     key={index}
@@ -250,6 +260,15 @@ export default function MuiTable({ rows, rowOnClick, headCells, addIconOnClick, 
                     <TableCell sx={{ color: "white" }} align="right">
                       {row.protein}
                     </TableCell>
+                    {deleteFunction && (
+                      <TableCell sx={{ color: "white" }} align="right">
+                        <IconButton
+                          onClick={(event) => {event.stopPropagation(); deleteFunction(row.id)}}
+                        >
+                          <DeleteIcon sx={{ color: "#63A4FF" }} />
+                        </IconButton>
+                      </TableCell>
+                    )}
                   </TableRow>
                 );
               })}

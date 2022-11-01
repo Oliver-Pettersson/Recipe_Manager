@@ -1,8 +1,6 @@
-export default interface Food {
+import Nutrition from "../Nutrition/Nutrition";
+
+export default interface Food extends Nutrition {
     id: string,
     name: string,
-    calories: string,
-    fat: string,
-    carbs: string,
-    protein: string
 }

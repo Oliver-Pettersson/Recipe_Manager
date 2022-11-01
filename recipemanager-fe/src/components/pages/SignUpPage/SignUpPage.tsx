@@ -1,12 +1,30 @@
-import React from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Alert, Box, Paper, Snackbar, Typography } from "@mui/material";
 import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
 import { Formik } from "formik";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import AuthenticationService from "../../../services/AuthenticationService";
+import { useAuth } from "../../../contexts/AuthenticationContext";
 
 export default function SignUpPage() {
+  const { login } = useAuth();
+  const navigation = useNavigate();
+  const [errorMessage, setErrorMessage] = useState({
+    isOpen: false,
+    message: "",
+  });
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setErrorMessage({ isOpen: false, message: "" });
+  };
   const validationSchema = Yup.object().shape({
     username: Yup.string()
       .required("This field can't be empty")
@@ -39,7 +57,13 @@ export default function SignUpPage() {
             validationSchema={validationSchema}
             initialValues={{ username: "", password: "", repeatPassword: "" }}
             onSubmit={(value) => {
-              console.log(value);
+              AuthenticationService()
+                .signup({ username: value.username, password: value.password })
+                .then(() => login(value.username, value.password))
+                .then(() => navigation("/"))
+                .catch(({ response }) => {
+                  setErrorMessage({ isOpen: true, message: response.data });
+                });
             }}
           >
             {({ handleChange, submitForm, errors }) => (
@@ -98,6 +122,15 @@ export default function SignUpPage() {
           </Formik>
         </Paper>
       </Box>
+      <Snackbar
+        open={errorMessage.isOpen}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {errorMessage.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

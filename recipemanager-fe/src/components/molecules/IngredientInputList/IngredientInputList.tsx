@@ -4,28 +4,27 @@ import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
 import IngredientsSearchBar from "../IngredientsSearchBar/IngredientsSearchBar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
-import Ingredient from "../../../types/Ingredient/Ingredient";
+import CreateRecipeIngredientDTO from "../../../types/RecipeIngredient/CreateRecipeIngredientDTO";
 
 interface PropsType {
-  setFormikFieldValue: (value: Ingredient[]) => void
+  setFormikFieldValue: (value: CreateRecipeIngredientDTO[]) => void,
 }
 
 export default function IngredientInputList({setFormikFieldValue} : PropsType) {
   const defaultItem = {
     food: {
       id: "",
-      calories: "",
-      carbs: "",
-      fat: "",
-      protein: "",
+      calories: 0,
+      carbs: 0,
+      fat: 0,
+      protein: 0,
       name: "",
     },
     amount: 0,
   };
   const [ingredientList, setIngredientList] = useState([defaultItem]);
-  console.log(ingredientList);
   useEffect(() => {
-    setFormikFieldValue(ingredientList.map((ingredient) => {return {id: ingredient.food.id, amount: ingredient.amount}}))
+    setFormikFieldValue(ingredientList.map((ingredient) => {return {ingredient: {id: ingredient.food.id}, weightInGram: ingredient.amount}}))
   }, [ingredientList])
   
   return (
@@ -36,6 +35,7 @@ export default function IngredientInputList({setFormikFieldValue} : PropsType) {
             sx={{ width: "70%" }}
             textFieldProps={{ style: { width: "100%" }, fullWidth: false }}
             value={row.food}
+            useOwnIngredients
             onSelection={(value) => {
               const newArray = [...ingredientList];
               newArray[index] = {
@@ -47,7 +47,7 @@ export default function IngredientInputList({setFormikFieldValue} : PropsType) {
           />
           <MuiTextField
             style={{ width: "20%" }}
-            label="amount"
+            label="amount in g"
             fullWidth={false}
             value={row.amount === 0 ? "" : row.amount}
             onChange={(event) => {

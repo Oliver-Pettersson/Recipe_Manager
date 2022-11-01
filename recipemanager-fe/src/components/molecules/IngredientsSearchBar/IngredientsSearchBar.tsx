@@ -5,84 +5,30 @@ import Food from "../../../types/Food/Food";
 import Typography from "@mui/material/Typography";
 import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
 import { TextFieldProps, SxProps } from "@mui/material";
+import { useData } from "../../../contexts/DataContext";
 interface PropsType {
   onSelection: (value: Food) => void;
   textFieldProps?: TextFieldProps;
   sx?: SxProps;
   value?: Food;
+  useOwnIngredients?: boolean,
 }
 
 export default function IngredientsSearchBar({
   onSelection,
   textFieldProps,
   sx,
+  useOwnIngredients,
   value
 }: PropsType) {
-  const Ingredients: Food[] = [
-    {
-      id: "1",
-      calories: "150",
-      carbs: "60",
-      fat: "15",
-      protein: "18",
-      name: "lasagna",
-    },
-    {
-      id: "2",
-      calories: "150",
-      carbs: "60",
-      fat: "15",
-      protein: "18",
-      name: "bread",
-    },
-    {
-      id: "3",
-      calories: "150",
-      carbs: "60",
-      fat: "15",
-      protein: "18",
-      name: "breadcrumbs",
-    },
-    {
-      id: "4",
-      calories: "150",
-      carbs: "60",
-      fat: "15",
-      protein: "18",
-      name: "protein bar",
-    },
-    {
-      id: "5",
-      calories: "150",
-      carbs: "60",
-      fat: "15",
-      protein: "18",
-      name: "pudding",
-    },
-    {
-      id: "6",
-      calories: "150",
-      carbs: "60",
-      fat: "15",
-      protein: "18",
-      name: "carrot",
-    },
-    {
-      id: "7",
-      calories: "150",
-      carbs: "60",
-      fat: "15",
-      protein: "18",
-      name: "cake",
-    },
-  ];
+  const {ingredients, userIngredients} = useData()
 
   return (
     <Autocomplete
     value={value}
       sx={sx}
       onChange={(event, value) => value && onSelection(value)}
-      options={Ingredients}
+      options={useOwnIngredients ? userIngredients : ingredients}
       disablePortal
       autoHighlight
       isOptionEqualToValue={(option, value) => option.id === value.id}
