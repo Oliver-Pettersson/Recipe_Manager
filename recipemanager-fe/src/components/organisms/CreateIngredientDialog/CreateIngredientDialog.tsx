@@ -36,20 +36,16 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
     name: Yup.string().required("Can't be empty").max(255, "name is too long"),
     calories: Yup.number()
       .typeError("Value must be a number")
-      .required("Can't be empty")
-      .positive("Must be greater than zero"),
+      .required("Can't be empty"),
     carbs: Yup.number()
       .typeError("Value must be a number")
-      .required("Can't be empty")
-      .positive("Must be greater than zero"),
+      .required("Can't be empty"),
     fat: Yup.number()
       .typeError("Value must be a number")
-      .required("Can't be empty")
-      .positive("Must be greater than zero"),
+      .required("Can't be empty"),
     protein: Yup.number()
       .typeError("Value must be a number")
-      .required("Can't be empty")
-      .positive("Must be greater than zero"),
+      .required("Can't be empty"),
   });
 
   return (
