@@ -8,6 +8,7 @@ import com.accenture.recipemanager.domain.nutrition.Nutrition;
 import com.accenture.recipemanager.domain.nutrition.NutritionService;
 import com.accenture.recipemanager.core.security.user.User;
 import com.accenture.recipemanager.core.security.user.UserService;
+import com.accenture.recipemanager.domain.recipe.Recipe;
 import org.slf4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -66,8 +67,8 @@ private UserService userService;
 
     @Override
     public void preDelete(String id) {
-        Ingredient comment = findById(id);
-        if (comment.getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId())
+        Ingredient ingredient = findById(id);
+        if (ingredient.getUser().getId().equals(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()))
             throw new UnauthorizedAccessException("Unauthorized user access");
     }
 }

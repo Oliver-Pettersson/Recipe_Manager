@@ -7,7 +7,6 @@ public class IngredientDTO extends AbstractEntityDTO {
     private String name;
     private Nutrition nutrition;
 
-
     public String getName() {
         return name;
     }

@@ -3,6 +3,7 @@ package com.accenture.recipemanager.domain.comment;
 import com.accenture.recipemanager.core.error.*;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
+import com.accenture.recipemanager.domain.recipe.Recipe;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import com.accenture.recipemanager.core.security.user.User;
@@ -62,7 +63,7 @@ public class CommentServiceImpl extends AbstractEntityServiceImpl<Comment> imple
     @Override
     public void preDelete(String id) {
         Comment comment = findById(id);
-        if (comment.getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId())
+        if (comment.getUser().getId().equals(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()))
             throw new UnauthorizedAccessException("Unauthorized user access");
     }
 }
