@@ -182,6 +182,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
     @Transactional
     public void deleteById(String id) throws NotFoundException {
         logger.debug("Attempting to delete " + className + " with ID '" + id + "'");
+        preDelete(id);
         repository.deleteById(UUID.fromString(id));
         logger.debug("Deleted " + className + " with ID '" + id + "'");
     }
@@ -218,4 +219,5 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
         return null;
     }
 
+    public void preDelete(String id){}
 }

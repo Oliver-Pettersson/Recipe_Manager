@@ -1,11 +1,9 @@
 package com.accenture.recipemanager.domain.ingredient;
 
-import com.accenture.recipemanager.core.error.InvalidStringException;
-import com.accenture.recipemanager.core.error.MandatoryFieldIsNullException;
-import com.accenture.recipemanager.core.error.RecipeManagerError;
-import com.accenture.recipemanager.core.error.UserNotFoundException;
+import com.accenture.recipemanager.core.error.*;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
+import com.accenture.recipemanager.domain.comment.Comment;
 import com.accenture.recipemanager.domain.nutrition.Nutrition;
 import com.accenture.recipemanager.domain.nutrition.NutritionService;
 import com.accenture.recipemanager.core.security.user.User;
@@ -64,5 +62,12 @@ private UserService userService;
         if (fromUser == null) throw new UserNotFoundException();
 
         return ((IngredientRepository) repository).findByUser(fromUser);
+    }
+
+    @Override
+    public void preDelete(String id) {
+        Ingredient comment = findById(id);
+        if (comment.getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId())
+            throw new UnauthorizedAccessException("Unauthorized user access");
     }
 }

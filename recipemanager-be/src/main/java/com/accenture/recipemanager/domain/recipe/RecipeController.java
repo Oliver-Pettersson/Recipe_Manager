@@ -55,6 +55,4 @@ public class RecipeController extends AbstractEntityController<Recipe, RecipeDTO
 
         return new ResponseEntity<>(recipes, HttpStatus.CREATED);
     }
-
-
 }
