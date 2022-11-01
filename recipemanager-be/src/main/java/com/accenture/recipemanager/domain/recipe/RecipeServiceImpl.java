@@ -84,7 +84,7 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
     @Override
     public List<Recipe> getAllCarousel() {
         List<Recipe> recipes = findAll();
-        while (recipes.size()>7)recipes.remove(recipes.size()-1);
+        while (recipes.size()>6)recipes.remove(recipes.size()-1);
         return recipes;
     }
 
