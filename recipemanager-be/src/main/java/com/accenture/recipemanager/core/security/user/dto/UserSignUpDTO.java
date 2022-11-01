@@ -1,4 +1,4 @@
-package com.accenture.recipemanager.domain.user.dto;
+package com.accenture.recipemanager.core.security.user.dto;
 
 public class UserSignUpDTO {
     private String username;

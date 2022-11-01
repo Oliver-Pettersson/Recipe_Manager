@@ -1,9 +1,6 @@
-package com.accenture.recipemanager.domain.user.dto;
+package com.accenture.recipemanager.core.security.user.dto;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
-import com.accenture.recipemanager.domain.ingredient.Ingredient;
-
-import java.util.List;
 
 public class UserDTO extends AbstractEntityDTO {
     private String username;

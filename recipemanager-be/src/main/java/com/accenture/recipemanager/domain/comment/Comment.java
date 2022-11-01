@@ -1,8 +1,7 @@
 package com.accenture.recipemanager.domain.comment;
 
 import com.accenture.recipemanager.core.generic.AbstractEntity;
-import com.accenture.recipemanager.domain.ingredient.Ingredient;
-import com.accenture.recipemanager.domain.user.User;
+import com.accenture.recipemanager.core.security.user.User;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 

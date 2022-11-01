@@ -1,7 +1,7 @@
-package com.accenture.recipemanager.domain.user.dto;
+package com.accenture.recipemanager.core.security.user.dto;
 
 import com.accenture.recipemanager.core.generic.DTOMapper;
-import com.accenture.recipemanager.domain.user.User;
+import com.accenture.recipemanager.core.security.user.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

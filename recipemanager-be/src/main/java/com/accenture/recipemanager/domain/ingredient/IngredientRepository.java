@@ -3,7 +3,7 @@ package com.accenture.recipemanager.domain.ingredient;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 
 import com.accenture.recipemanager.domain.nutrition.Nutrition;
-import com.accenture.recipemanager.domain.user.User;
+import com.accenture.recipemanager.core.security.user.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

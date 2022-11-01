@@ -1,8 +1,8 @@
 package com.accenture.recipemanager.core.security;
 
 
-import com.accenture.recipemanager.domain.user.User;
-import com.accenture.recipemanager.domain.user.UserService;
+import com.accenture.recipemanager.core.security.user.User;
+import com.accenture.recipemanager.core.security.user.UserService;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
