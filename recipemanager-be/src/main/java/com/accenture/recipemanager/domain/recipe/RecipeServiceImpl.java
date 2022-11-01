@@ -71,7 +71,7 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
     public Recipe addRatingToRecipe(RateRecipeDTO dto) throws RecipeManagerError {
         Recipe recipe = findById(dto.getRecipe());
         recipe.getRatings().forEach(rating -> {
-            if (rating.getComment().getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId())
+            if (rating.getComment().getUser().getId().equals(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()))
                 throw new RatingAlreadyExistsException("This user already created a rating");
         });
         recipe.getRatings().add(ratingService.createIfNotExist(
@@ -84,7 +84,7 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
     @Override
     public List<Recipe> getAllCarousel() {
         List<Recipe> recipes = findAll();
-        while (recipes.size()>6)recipes.remove(recipes.size()-1);
+        while (recipes.size() > 6) recipes.remove(recipes.size() - 1);
         return recipes;
     }
 
@@ -131,8 +131,8 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
 
     @Override
     public void preDelete(String id) {
-        Recipe comment = findById(id);
-        if (comment.getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId())
+        Recipe recipe = findById(id);
+        if (recipe.getUser().getId().equals(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()))
             throw new UnauthorizedAccessException("Unauthorized user access");
     }
 }
