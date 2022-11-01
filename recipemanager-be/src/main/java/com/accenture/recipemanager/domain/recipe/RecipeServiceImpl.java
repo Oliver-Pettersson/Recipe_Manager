@@ -56,7 +56,7 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
         return super.preSave(newEntity);
     }
 
-    public void validateField(Recipe recipe) throws RecipeManagerError{
+    public void validateField(Recipe recipe) throws RecipeManagerError {
         if (recipe.getRecipeIngredients() == null || recipe.getName() == null || recipe.getDescription() == null || recipe.getImage() == null)
             throw new MandatoryFieldIsNullException("Not all mandatory fields set");
         if (recipe.getName().length() == 0 || recipe.getName().length() > 255)
@@ -68,11 +68,12 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
 
     @Override
     @Transactional
-    public Recipe addRatingToRecipe(RateRecipeDTO dto) throws RecipeManagerError{
+    public Recipe addRatingToRecipe(RateRecipeDTO dto) throws RecipeManagerError {
         Recipe recipe = findById(dto.getRecipe());
         recipe.getRatings().forEach(rating -> {
-            if(rating.getComment().getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()) throw new RatingAlreadyExistsException("This user already created a rating");
-        }  );
+            if (rating.getComment().getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId())
+                throw new RatingAlreadyExistsException("This user already created a rating");
+        });
         recipe.getRatings().add(ratingService.createIfNotExist(
                 new Rating().setRating(dto.getRating()).setComment(
                         new Comment().setComment(dto.getComment()).setComments(new ArrayList<>()))));
@@ -81,8 +82,15 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
     }
 
     @Override
+    public List<Recipe> getAllCarousel() {
+        List<Recipe> recipes = findAll();
+        while (recipes.size()>6)recipes.remove(recipes.size()-1);
+        return recipes;
+    }
+
+    @Override
     @Transactional
-    public List<SimpleRecipeDTO> getAllFromUser(String userId) throws RecipeManagerError{
+    public List<SimpleRecipeDTO> getAllFromUser(String userId) throws RecipeManagerError {
         User fromUser = null;
         try {
             fromUser = userService.findById(userId);
@@ -97,9 +105,9 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
 
     @Override
     @Transactional
-    public List<SimpleRecipeDTO> getAllRecipes()throws RecipeManagerError {
+    public List<SimpleRecipeDTO> getAllRecipes() throws RecipeManagerError {
         List<Recipe> recipes = findAll();
-        if (recipes == null)  throw new NotFoundException("Recipes not found");
+        if (recipes == null) throw new NotFoundException("Recipes not found");
         return toSimpleRecipeDTO(recipes);
     }
 
