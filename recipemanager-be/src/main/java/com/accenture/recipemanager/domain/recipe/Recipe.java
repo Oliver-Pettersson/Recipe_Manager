@@ -18,7 +18,7 @@ public class Recipe extends AbstractEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "image", columnDefinition = "text")
+    @Column(name = "image", columnDefinition = "text", nullable = false)
     private String image;
 
     @ManyToOne(cascade = CascadeType.DETACH,fetch=FetchType.EAGER)
@@ -27,12 +27,12 @@ public class Recipe extends AbstractEntity {
     private User user;
 
     @OneToMany(fetch=FetchType.EAGER)
-    @JoinColumn(name = "recipe_id")
+    @JoinColumn(name = "recipe_id", nullable = false)
     @Fetch(value = FetchMode.SELECT)
     private List<RecipeIngredient> recipeIngredients;
 
     @OneToMany(cascade = CascadeType.DETACH,fetch=FetchType.EAGER)
-    @JoinColumn(name = "recipe_id")
+    @JoinColumn(name = "recipe_id", nullable = false)
     @Fetch(value = FetchMode.SELECT)
     private List<Rating> ratings;
 

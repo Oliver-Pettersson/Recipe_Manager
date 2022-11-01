@@ -42,10 +42,19 @@ public class RecipeController extends AbstractEntityController<Recipe, RecipeDTO
         return new ResponseEntity<>(recipes, HttpStatus.CREATED);
     }
 
+    @GetMapping("/carousel")
+    public ResponseEntity<Collection<RecipeDTO>> findAll() {
+        Collection<Recipe> dms = service.findAll();
+
+        return new ResponseEntity<>(mapper.toDTOs(dms), HttpStatus.OK);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<Collection<SimpleRecipeDTO>> getAllRecipes() {
         List<SimpleRecipeDTO> recipes = ((RecipeService) service).getAllRecipes();
 
         return new ResponseEntity<>(recipes, HttpStatus.CREATED);
     }
+
+
 }
