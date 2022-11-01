@@ -11,22 +11,24 @@ interface PropsType {
   textFieldProps?: TextFieldProps;
   sx?: SxProps;
   value?: Food;
+  useOwnIngredients?: boolean,
 }
 
 export default function IngredientsSearchBar({
   onSelection,
   textFieldProps,
   sx,
+  useOwnIngredients,
   value
 }: PropsType) {
-  const {ingredients} = useData()
+  const {ingredients, userIngredients} = useData()
 
   return (
     <Autocomplete
     value={value}
       sx={sx}
       onChange={(event, value) => value && onSelection(value)}
-      options={ingredients}
+      options={useOwnIngredients ? userIngredients : ingredients}
       disablePortal
       autoHighlight
       isOptionEqualToValue={(option, value) => option.id === value.id}

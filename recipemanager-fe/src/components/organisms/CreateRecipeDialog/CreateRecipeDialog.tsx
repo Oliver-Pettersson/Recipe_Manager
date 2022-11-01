@@ -55,7 +55,6 @@ export default function CreateRecipeDialog({ open, setOpen }: PropsType) {
             description: "",
           }}
           onSubmit={(value: CreateRecipeDTO) => {
-            console.log(value);
             RecipesService().create(value).then(() => refreshRecipes()).then(() => handleClose())
           }}
         >

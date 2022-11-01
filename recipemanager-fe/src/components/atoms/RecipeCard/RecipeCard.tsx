@@ -14,7 +14,6 @@ interface PropsType {
 
 export default function RecipeCard({recipe} : PropsType) {
   const [open, setOpen] = useState(false)
-  console.log(recipe)
   return (
     <>
     <Card>

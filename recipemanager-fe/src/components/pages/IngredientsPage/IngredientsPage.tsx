@@ -1,6 +1,7 @@
 import { Box, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useData } from "../../../contexts/DataContext";
+import IngredientsService from "../../../services/IngredientsService";
 import Food from "../../../types/Food/Food";
 import CreateIngredientDialog from "../../organisms/CreateIngredientDialog/CreateIngredientDialog";
 import MuiTable from "../../organisms/MuiTable/MuiTable";
@@ -10,6 +11,7 @@ export default function IngredientsPage() {
   const {ingredients, userIngredients} = useData()
   const [rows, setRows] = useState<Food[]>([])
   const [userRows, setUserRows] = useState<Food[]>([])
+  const {refreshIngredients} = useData()
   
   useEffect(() => {
     setRows(ingredients)
@@ -38,6 +40,9 @@ export default function IngredientsPage() {
               setOpenCreateDialog(true);
             }}
             tableTitle="Own Ingredients"
+            deleteFunction={(id: string) => {
+              IngredientsService().deleteById(id).then(() => refreshIngredients())
+            }}
             headCells={[
               {
                 id: "name",
@@ -69,6 +74,12 @@ export default function IngredientsPage() {
                 disablePadding: false,
                 label: "Protein (g)",
               },
+              {
+                id: "id",
+                numeric: true,
+                disablePadding: false,
+                label: "",
+              }
             ]}
             rowOnClick={(row) => {}}
             rows={userRows}

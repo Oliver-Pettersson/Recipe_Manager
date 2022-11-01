@@ -59,7 +59,6 @@ export default function CreateIngredientDialog({ open, setOpen }: PropsType) {
         validationSchema={validationSchema}
         initialValues={initialValue}
         onSubmit={(values: FoodDisplayDTO) => {
-          console.log(values);
           IngredientsService()
             .create({
               name: values.name,

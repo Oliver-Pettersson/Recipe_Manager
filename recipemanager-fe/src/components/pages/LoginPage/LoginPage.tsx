@@ -39,7 +39,6 @@ export default function LoginPage() {
           <Formik
             initialValues={{ username: "", password: "" }}
             onSubmit={(value, helpers) => {
-              console.log(value);
               login(value.username, value.password).then(() => navigation("/")).catch(({response}) => {
                 setErrorMessage({isOpen: true, message: response.data})})
             }}

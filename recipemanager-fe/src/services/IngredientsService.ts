@@ -13,8 +13,10 @@ const IngredientsService = () => ({
     return data;
     },
   create:async (ingredient:CreateIngredientDTO) => {
-    console.log({...ingredient})
     return ApiService.post(baseURL, {...ingredient})
+  },
+  deleteById: async (id: string) => {
+    return (await ApiService.delete(baseURL + id));
   }
 })
 

@@ -50,7 +50,6 @@ export default function CreateRatingDialog({
           validationSchema={validationSchema}
           initialValues={{ rating: 0, comment: "" }}
           onSubmit={(value) => {
-            console.log(value);
             RatingService()
               .create({ ...value, recipe: recipeID })
               .then(() => extendedSubmit())

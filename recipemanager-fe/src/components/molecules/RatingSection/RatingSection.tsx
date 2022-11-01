@@ -20,6 +20,29 @@ export default function RatingSection({
   rating,
   setResponseDialog,
 }: PropsType) {
+  const renderRecursive = (comment: Comment) : JSX.Element => (
+    <>
+      <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
+      <MuiComment
+        responseTo={rating.comment.user.username}
+        comment={comment}
+      />
+      <div style={{ textAlign: "right" }}>
+        <IconButton
+          onClick={() =>
+            setResponseDialog({
+              isOpen: true,
+              respondingComment: comment,
+            })
+          }
+        >
+          <ReplyIcon sx={{ color: "#63A4FF" }} />
+        </IconButton>
+      </div>
+      {comment.comments.map((subcomment) => renderRecursive(subcomment))}
+    </>
+  );
+
   return (
     <div style={{ padding: "0px 40px" }}>
       <Paper style={{ padding: "40px 20px", marginTop: 100 }}>
@@ -33,30 +56,10 @@ export default function RatingSection({
               })
             }
           >
-            <ReplyIcon sx={{color: "#63A4FF"}} />
+            <ReplyIcon sx={{ color: "#63A4FF" }} />
           </IconButton>
         </div>
-        {rating.comment.comments.map((subComment) => (
-          <>
-            <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
-            <MuiComment
-              responseTo={rating.comment.user.username}
-              comment={subComment}
-            />
-            <div style={{ textAlign: "right" }}>
-          <IconButton
-            onClick={() =>
-              setResponseDialog({
-                isOpen: true,
-                respondingComment: subComment,
-              })
-            }
-          >
-            <ReplyIcon sx={{color: "#63A4FF"}} />
-          </IconButton>
-        </div>
-          </>
-        ))}
+        {rating.comment.comments.map((subComment) => renderRecursive(subComment))}
       </Paper>
     </div>
   );

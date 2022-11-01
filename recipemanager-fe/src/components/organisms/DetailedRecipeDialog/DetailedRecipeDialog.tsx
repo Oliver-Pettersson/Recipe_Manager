@@ -22,7 +22,6 @@ export default function DetailedRecipeDialog({
   setOpen,
   recipeEntity,
 }: PropsType) {
-  console.log("detail", recipeEntity);
   const handleClose = () => {
     setOpen(false);
   };

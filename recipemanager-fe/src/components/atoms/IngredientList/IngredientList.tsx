@@ -6,7 +6,6 @@ interface PropsType {
 }
 
 export default function IngredientList({ recipeIngredients }: PropsType) {
-  console.log(recipeIngredients)
   return (
     <List sx={{ listStyleType: "disc", pl: 4 }} >
       {recipeIngredients.map((recipeIngredient) => (

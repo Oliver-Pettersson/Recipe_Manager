@@ -57,7 +57,6 @@ export default function SignUpPage() {
             validationSchema={validationSchema}
             initialValues={{ username: "", password: "", repeatPassword: "" }}
             onSubmit={(value) => {
-              console.log(value);
               AuthenticationService()
                 .signup({ username: value.username, password: value.password })
                 .then(() => login(value.username, value.password))

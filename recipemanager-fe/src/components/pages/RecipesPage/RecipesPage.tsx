@@ -47,11 +47,9 @@ export default function RecipesPage() {
   const [rows, setRows] = useState(recipes);
   const [userRows, setUserRows] = useState(userRecipes);
   useEffect(() => {
-    console.log("recipes", recipes);
     setRows(recipes)
   }, [recipes]);
   useEffect(() => {
-    console.log("userRecipes", userRecipes)
     setUserRows(userRecipes)}, [userRecipes]);
 
   return (
@@ -116,7 +114,6 @@ export default function RecipesPage() {
               }
             ]}
             rowOnClick={(row) => {
-              console.log(row)
               const foundItem = userRecipes.find(
                 (userRecipe) => userRecipe.id === row.id
               )
@@ -181,7 +178,6 @@ export default function RecipesPage() {
               },
             ]}
             rowOnClick={(row) => {
-              console.log(row)
               const foundItem = recipes.find(
                 (item) => item.id === row.id
               )
