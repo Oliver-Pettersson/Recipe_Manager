@@ -4,6 +4,7 @@ import RecipesService from "../services/RecipesService";
 import Food from "../types/Food/Food";
 import FoodEntity from "../types/Food/FoodEntity";
 import DisplayRecipeDTO from "../types/Recipe/DisplayRecipeDTO";
+import SimpleRecipeDTO from "../types/Recipe/SimpleRecipeDTO";
 import { useAuth } from "./AuthenticationContext";
 
 type DataProviderProps = {
@@ -11,7 +12,6 @@ type DataProviderProps = {
 };
 
 export type DataContextProps = {
-  
   refreshIngredients: () => void;
   refreshRecipes: () => void;
   ingredients: Food[];
@@ -50,33 +50,45 @@ export const DataContextProvider = ({ children }: DataProviderProps) => {
         .then((value) =>
           setUserIngredients(
             value.map((item: FoodEntity) => {
-              return { ...item.nutrition, id: item.id, name: item.name};
+              return { ...item.nutrition, id: item.id, name: item.name };
             })
           )
         );
   };
 
   const refreshIngredients = () => {
-    loadIngredients()
+    loadIngredients();
     loadUserIngredients();
-  }
+  };
 
   const loadRecipes = () => {
     RecipesService()
       .getAll()
-      .then((value) => setRecipes(value));
+      .then((value) =>
+        setRecipes(
+          value.map((item: SimpleRecipeDTO) => {
+            return { ...item.nutrition, id: item.id, name: item.name };
+          })
+        )
+      );
   };
   const loadUserRecipes = () => {
     principal &&
       RecipesService()
         .getAllFromUser(principal.username)
-        .then((value) => setUserRecipes(value));
+        .then((value) =>
+          setUserRecipes(
+            value.map((item: SimpleRecipeDTO) => {
+              return { ...item.nutrition, id: item.id, name: item.name };
+            })
+          )
+        );
   };
 
   const refreshRecipes = () => {
     loadRecipes();
     loadUserRecipes();
-  }
+  };
 
   useEffect(() => {
     if (principal) {
