@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ValidationErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({RecipeManagerError.class, InvalidStringException.class,
             MandatoryFieldIsNullException.class, NotFoundException.class, InvalidNumberException.class, RatingAlreadyExistsException.class,
-            InvalidListException.class})
+            InvalidListException.class, UnauthorizedAccessException.class})
     public ResponseEntity<String> notFoundException(RecipeManagerError e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }

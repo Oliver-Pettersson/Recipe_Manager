@@ -27,12 +27,12 @@ public class Recipe extends AbstractEntity {
     private User user;
 
     @OneToMany(fetch=FetchType.EAGER)
-    @JoinColumn(name = "recipe_id", nullable = false)
+    @JoinColumn(name = "recipe_id")
     @Fetch(value = FetchMode.SELECT)
     private List<RecipeIngredient> recipeIngredients;
 
     @OneToMany(cascade = CascadeType.DETACH,fetch=FetchType.EAGER)
-    @JoinColumn(name = "recipe_id", nullable = false)
+    @JoinColumn(name = "recipe_id")
     @Fetch(value = FetchMode.SELECT)
     private List<Rating> ratings;
 

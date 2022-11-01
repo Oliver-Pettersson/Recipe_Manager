@@ -128,4 +128,11 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
 
         return simpleRecipeDTOS;
     }
+
+    @Override
+    public void preDelete(String id) {
+        Recipe comment = findById(id);
+        if (comment.getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId())
+            throw new UnauthorizedAccessException("Unauthorized user access");
+    }
 }

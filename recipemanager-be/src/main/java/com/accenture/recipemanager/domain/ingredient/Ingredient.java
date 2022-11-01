@@ -20,7 +20,7 @@ public class Ingredient extends AbstractEntity {
     private String name;
 
     @ManyToOne(cascade = CascadeType.DETACH,fetch=FetchType.EAGER)
-    @JoinColumn(name = "nutrition_id", nullable = false)
+    @JoinColumn(name = "nutrition_id")
     @Fetch(value = FetchMode.SELECT)
     private Nutrition nutrition;
 
