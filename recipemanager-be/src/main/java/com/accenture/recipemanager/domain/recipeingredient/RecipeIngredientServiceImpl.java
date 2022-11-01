@@ -2,6 +2,7 @@ package com.accenture.recipemanager.domain.recipeingredient;
 
 import com.accenture.recipemanager.core.error.InvalidNumberException;
 import com.accenture.recipemanager.core.error.MandatoryFieldIsNullException;
+import com.accenture.recipemanager.core.error.RecipeManagerError;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
 import com.accenture.recipemanager.domain.ingredient.Ingredient;
@@ -35,7 +36,7 @@ public class RecipeIngredientServiceImpl extends AbstractEntityServiceImpl<Recip
 
     @Override
     @Transactional
-    protected RecipeIngredient preSave(RecipeIngredient newEntity) {
+    protected RecipeIngredient preSave(RecipeIngredient newEntity)throws RecipeManagerError {
         if(newEntity.getWeightInGram() < 1) throw new InvalidNumberException("Number can't be negative or 0");
         if(newEntity.getIngredient() == null) throw new MandatoryFieldIsNullException("Mandatory field is null");
 

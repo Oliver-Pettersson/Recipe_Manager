@@ -2,6 +2,7 @@ package com.accenture.recipemanager.domain.rating;
 
 import com.accenture.recipemanager.core.error.InvalidNumberException;
 import com.accenture.recipemanager.core.error.MandatoryFieldIsNullException;
+import com.accenture.recipemanager.core.error.RecipeManagerError;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
 import com.accenture.recipemanager.domain.comment.CommentService;
@@ -22,7 +23,7 @@ public class RatingServiceImpl extends AbstractEntityServiceImpl<Rating> impleme
 
     @Override
     @Transactional
-    protected Rating preSave(Rating newEntity) {
+    protected Rating preSave(Rating newEntity) throws RecipeManagerError {
         newEntity.setComment(commentService.createIfNotExist(newEntity.getComment()));
 
         if(newEntity.getComment() == null) throw new MandatoryFieldIsNullException("Mandatory field is null");

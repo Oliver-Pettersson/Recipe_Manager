@@ -1,6 +1,7 @@
 package com.accenture.recipemanager.domain.nutrition;
 
 import com.accenture.recipemanager.core.error.InvalidNumberException;
+import com.accenture.recipemanager.core.error.RecipeManagerError;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class NutritionServiceImpl extends AbstractEntityServiceImpl<Nutrition> i
 
     @Override
     @Transactional
-    protected Nutrition preSave(Nutrition newEntity) {
+    protected Nutrition preSave(Nutrition newEntity) throws RecipeManagerError {
         if (newEntity.getProtein() < 0 || newEntity.getCarbs() < 0 || newEntity.getCalories() < 0 || newEntity.getFat() < 0)
             throw new InvalidNumberException("Number can't be negative");
 

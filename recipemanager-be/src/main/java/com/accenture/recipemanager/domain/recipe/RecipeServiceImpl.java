@@ -56,19 +56,19 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
         return super.preSave(newEntity);
     }
 
-    public void validateField(Recipe recipe) {
+    public void validateField(Recipe recipe) throws RecipeManagerError{
         if (recipe.getRecipeIngredients() == null || recipe.getName() == null || recipe.getDescription() == null || recipe.getImage() == null)
             throw new MandatoryFieldIsNullException("Not all mandatory fields set");
         if (recipe.getName().length() == 0 || recipe.getName().length() > 255)
             throw new InvalidStringException("String invalid, ether to long or empty");
         if (recipe.getImage().length() == 0) throw new InvalidStringException("String invalid, ether to long or empty");
-        if (recipe.getRecipeIngredients().size() > 0) throw new InvalidListException("List can't be empty");
+        if (recipe.getRecipeIngredients().size() == 0) throw new InvalidListException("List can't be empty");
         if (recipe.getDescription().length() == 0) throw new InvalidStringException("String can't be empty");
     }
 
     @Override
     @Transactional
-    public Recipe addRatingToRecipe(RateRecipeDTO dto) {
+    public Recipe addRatingToRecipe(RateRecipeDTO dto) throws RecipeManagerError{
         Recipe recipe = findById(dto.getRecipe());
         recipe.getRatings().forEach(rating -> {
             if(rating.getComment().getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()) throw new RatingAlreadyExistsException("This user already created a rating");
@@ -82,7 +82,7 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
 
     @Override
     @Transactional
-    public List<SimpleRecipeDTO> getAllFromUser(String userId) {
+    public List<SimpleRecipeDTO> getAllFromUser(String userId) throws RecipeManagerError{
         User fromUser = null;
         try {
             fromUser = userService.findById(userId);
@@ -97,7 +97,7 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
 
     @Override
     @Transactional
-    public List<SimpleRecipeDTO> getAllRecipes() {
+    public List<SimpleRecipeDTO> getAllRecipes()throws RecipeManagerError {
         List<Recipe> recipes = findAll();
         if (recipes == null)  throw new NotFoundException("Recipes not found");
         return toSimpleRecipeDTO(recipes);
@@ -110,10 +110,10 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
             SimpleRecipeDTO dto = new SimpleRecipeDTO().setName(recipe.getName()).setNutrition(new Nutrition().setCalories(0).setCarbs(0).setFat(0).setProtein(0));
             dto.setId(recipe.getId());
             for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
-                dto.getNutrition().setCalories(dto.getNutrition().getCalories() + (recipeIngredient.getWeightInGram() / 100) * recipeIngredient.getIngredient().getNutrition().getCalories());
-                dto.getNutrition().setFat(dto.getNutrition().getFat() + (recipeIngredient.getWeightInGram() / 100) * recipeIngredient.getIngredient().getNutrition().getFat());
-                dto.getNutrition().setCarbs(dto.getNutrition().getCarbs() + (recipeIngredient.getWeightInGram() / 100) * recipeIngredient.getIngredient().getNutrition().getCarbs());
-                dto.getNutrition().setProtein(dto.getNutrition().getProtein() + (recipeIngredient.getWeightInGram() / 100) * recipeIngredient.getIngredient().getNutrition().getProtein());
+                dto.getNutrition().setCalories(dto.getNutrition().getCalories() + (int) ((recipeIngredient.getWeightInGram() / 100.0) * recipeIngredient.getIngredient().getNutrition().getCalories()));
+                dto.getNutrition().setFat(dto.getNutrition().getFat() + (int) ((recipeIngredient.getWeightInGram() / 100.0) * recipeIngredient.getIngredient().getNutrition().getFat()));
+                dto.getNutrition().setCarbs(dto.getNutrition().getCarbs() + (int) ((recipeIngredient.getWeightInGram() / 100.0) * recipeIngredient.getIngredient().getNutrition().getCarbs()));
+                dto.getNutrition().setProtein(dto.getNutrition().getProtein() + (int) ((recipeIngredient.getWeightInGram() / 100.0) * recipeIngredient.getIngredient().getNutrition().getProtein()));
             }
             simpleRecipeDTOS.add(dto);
         }

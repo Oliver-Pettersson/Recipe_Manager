@@ -2,6 +2,7 @@ package com.accenture.recipemanager.domain.ingredient;
 
 import com.accenture.recipemanager.core.error.InvalidStringException;
 import com.accenture.recipemanager.core.error.MandatoryFieldIsNullException;
+import com.accenture.recipemanager.core.error.RecipeManagerError;
 import com.accenture.recipemanager.core.error.UserNotFoundException;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
@@ -41,7 +42,7 @@ private UserService userService;
 
     @Override
     @Transactional
-    protected Ingredient preSave(Ingredient newEntity) {
+    protected Ingredient preSave(Ingredient newEntity) throws RecipeManagerError {
         newEntity.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         newEntity.setNutrition(nutritionService.createIfNotExist(newEntity.getNutrition()));
 
@@ -53,7 +54,7 @@ private UserService userService;
 
     @Override
     @Transactional
-    public List<Ingredient> getAllFromUser(String userId) {
+    public List<Ingredient> getAllFromUser(String userId) throws RecipeManagerError{
         User fromUser = null;
         try {
             fromUser = userService.findById(userId);

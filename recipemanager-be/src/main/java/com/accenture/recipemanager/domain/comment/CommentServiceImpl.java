@@ -2,6 +2,7 @@ package com.accenture.recipemanager.domain.comment;
 
 import com.accenture.recipemanager.core.error.InvalidStringException;
 import com.accenture.recipemanager.core.error.MandatoryFieldIsNullException;
+import com.accenture.recipemanager.core.error.RecipeManagerError;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class CommentServiceImpl extends AbstractEntityServiceImpl<Comment> imple
 
     @Override
     @Transactional
-    public Comment createReply(Comment comment, String referenceCommentId) {
+    public Comment createReply(Comment comment, String referenceCommentId) throws RecipeManagerError {
         //save comment
         comment.setComments(new ArrayList<>());
         comment.setTimeStamp(LocalDateTime.now() );
@@ -48,7 +49,7 @@ public class CommentServiceImpl extends AbstractEntityServiceImpl<Comment> imple
 
     @Override
     @Transactional
-    protected Comment preSave(Comment newEntity) {
+    protected Comment preSave(Comment newEntity) throws RecipeManagerError{
         newEntity.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         newEntity.setTimeStamp(LocalDateTime.now());
 
