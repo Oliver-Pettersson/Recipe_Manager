@@ -5,9 +5,11 @@ import {
   DialogTitle,
   Rating,
   Typography,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import { Formik } from "formik";
-import React from "react";
+import React, {useState} from "react";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
 import MuiTextareaAutosize from "../../atoms/MuiTextareaAutosize/MuiTextareaAutosize";
 import * as Yup from "yup";
@@ -23,8 +25,12 @@ export default function CreateRatingDialog({
   open,
   setOpen,
   recipeID,
-  extendedSubmit
+  extendedSubmit,
 }: PropsType) {
+  const [errorMessage, setErrorMessage] = useState({
+    isOpen: false,
+    message: "",
+  });
   const handleClose = () => {
     setOpen(false);
   };
@@ -33,7 +39,9 @@ export default function CreateRatingDialog({
       .typeError("Can only contain numbers")
       .required("Can't be empty")
       .min(1, "Can't be empty"),
-    comment: Yup.string().required("Can't be empty"),
+    comment: Yup.string()
+      .required("Can't be empty")
+      .max(255, "Input can't be longer than 255 characters"),
   });
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -43,7 +51,12 @@ export default function CreateRatingDialog({
           initialValues={{ rating: 0, comment: "" }}
           onSubmit={(value) => {
             console.log(value);
-            RatingService().create({...value, recipe: recipeID}).then(() => extendedSubmit()).then(() => handleClose())
+            RatingService()
+              .create({ ...value, recipe: recipeID })
+              .then(() => extendedSubmit())
+              .then(() => handleClose()).catch((response) => {
+                setErrorMessage({ isOpen: true, message: response.data });
+              });
           }}
         >
           {({ handleChange, handleSubmit, errors }) => (
@@ -81,6 +94,19 @@ export default function CreateRatingDialog({
                   Submit
                 </MuiButton>
               </DialogActions>
+              <Snackbar
+                open={errorMessage.isOpen}
+                autoHideDuration={6000}
+                onClose={handleClose}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="error"
+                  sx={{ width: "100%" }}
+                >
+                  {errorMessage.message}
+                </Alert>
+              </Snackbar>
             </>
           )}
         </Formik>

@@ -43,7 +43,7 @@ export default function RecipesPage() {
   const getDetailedRecipe = (value: DisplayRecipeDTO) => {
     return RecipesService().getById(value.id)
   }
-  const { recipes, userRecipes } = useData();
+  const { recipes, userRecipes, refreshRecipes } = useData();
   const [rows, setRows] = useState(recipes);
   const [userRows, setUserRows] = useState(userRecipes);
   useEffect(() => {
@@ -74,6 +74,9 @@ export default function RecipesPage() {
             handleSearch={(value) =>
               setUserRows(defaultRows.filter((row) => row.name.includes(value)))
             }
+            deleteFunction={(id: string) => {
+              RecipesService().deleteById(id).then(() => refreshRecipes())
+            }}
             headCells={[
               {
                 id: "name",
@@ -105,6 +108,12 @@ export default function RecipesPage() {
                 disablePadding: false,
                 label: "Protein (g)",
               },
+              {
+                id: "id",
+                numeric: true,
+                disablePadding: false,
+                label: "",
+              }
             ]}
             rowOnClick={(row) => {
               console.log(row)

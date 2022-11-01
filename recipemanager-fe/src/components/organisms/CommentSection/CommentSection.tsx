@@ -1,4 +1,5 @@
 import { useState } from "react";
+import RecipesService from "../../../services/RecipesService";
 import Comment from "../../../types/Comment/Comment";
 import RatingType from "../../../types/RatingType/RatingType";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
@@ -21,7 +22,7 @@ export default function CommentSection({ defaultRatings, recipeID }: PropsType) 
     respondingComment?: Comment;
   }>({ isOpen: false, respondingComment: undefined });
   const refreshCommentSection = () => {
-    console.log("WIP")
+    RecipesService().getById(recipeID).then((recipe) => setRatings(recipe.ratings))
   }
   return (
     <>

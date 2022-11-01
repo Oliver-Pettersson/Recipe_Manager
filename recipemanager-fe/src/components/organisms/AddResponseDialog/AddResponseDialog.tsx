@@ -29,7 +29,7 @@ import CommentService from "../../../services/CommentService";
       setOpen(false);
     };
     const validationSchema = Yup.object({
-      comment: Yup.string().required("Can't be empty")
+      comment: Yup.string().required("Can't be empty").max(255, "Input can't be longer than 255 characters")
     })
     return (
       <Dialog open={open} onClose={handleClose}>

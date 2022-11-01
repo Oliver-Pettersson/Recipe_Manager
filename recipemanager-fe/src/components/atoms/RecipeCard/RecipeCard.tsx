@@ -3,10 +3,20 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import Recipe from "../../../types/Recipe/Recipe";
+import DetailedRecipeDialog from "../../organisms/DetailedRecipeDialog/DetailedRecipeDialog";
 import MuiButton from "../MuiButton/MuiButton";
 
-export default function RecipeCard() {
+interface PropsType {
+  recipe: Recipe
+}
+
+export default function RecipeCard({recipe} : PropsType) {
+  const [open, setOpen] = useState(false)
+  console.log(recipe)
   return (
+    <>
     <Card>
       <CardMedia
         sx={{
@@ -16,22 +26,23 @@ export default function RecipeCard() {
           margin: "auto",
           objectFit: "cover",
         }}
-        image="/images/placeholder-image.png"
+        image={recipe.image}
       />
       <CardContent sx={{backgroundColor: "#62727B", color: "white"}} >
         <Typography gutterBottom variant="h6" component="div">
-          Lizard
+          {recipe.name}
         </Typography>
         <Typography variant="body2" >
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {recipe.description}
         </Typography>
       </CardContent>
       <CardActions sx={{backgroundColor: "#62727B"}}>
-        <MuiButton style={{margin: "auto"}}>
+        <MuiButton onClick={() => {setOpen(true)}} style={{margin: "auto"}}>
           Details
         </MuiButton>
       </CardActions>
     </Card>
+    <DetailedRecipeDialog open={open} setOpen={setOpen} recipeEntity={recipe}  />
+    </>
   );
 }

@@ -20,6 +20,14 @@ const RecipesService = () => ({
   create:async (recipe:CreateRecipeDTO) => {
     console.log({...recipe})
     return ApiService.post(baseURL, {...recipe})
+  },
+  getCarouselItems: async () => {
+    const {data} = await ApiService.get(baseURL + "carousel");
+      console.log(data)
+      return data;
+  },
+  deleteById: async (id: string) => {
+    return (await ApiService.delete(baseURL + id));
   }
 })
 

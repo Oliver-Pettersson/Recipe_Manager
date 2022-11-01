@@ -4,7 +4,7 @@ für Jannik
 - get all ratings of recipe endpoint
 
 
-- connect recipe cards -> only partially
+- add refresh for ratings
 - add snackbar for error when already rated -> only partially 
 - add documentation
 - add erm to documentation
