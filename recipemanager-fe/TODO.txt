@@ -1,0 +1,12 @@
+für Jannik
+- User can only rate recipe once
+- Get 6 full recipes
+- get all ratings of recipe endpoint
+
+
+- connect recipe cards -> only partially
+- add snackbar for error when already rated -> only partially 
+- add documentation
+- add erm to documentation
+- deployment
+(- add delete of user recipe and ingredient)

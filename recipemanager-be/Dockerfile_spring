@@ -1,0 +1,3 @@
+FROM openjdk:17-alpine
+COPY build/libs/recipemanager-0.0.1.jar ./app.jar
+ENTRYPOINT ["java","-jar","app.jar"]
