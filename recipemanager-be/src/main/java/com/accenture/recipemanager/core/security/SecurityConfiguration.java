@@ -1,6 +1,6 @@
 package com.accenture.recipemanager.core.security;
 
-import com.accenture.recipemanager.domain.user.UserService;
+import com.accenture.recipemanager.core.security.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

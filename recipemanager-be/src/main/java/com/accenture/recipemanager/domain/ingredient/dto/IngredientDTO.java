@@ -5,24 +5,12 @@ import com.accenture.recipemanager.domain.nutrition.Nutrition;
 
 public class IngredientDTO extends AbstractEntityDTO {
     private String name;
-    private int weightInGram;
     private Nutrition nutrition;
 
 
     public String getName() {
         return name;
     }
-
-
-    public int getWeightInGram() {
-        return weightInGram;
-    }
-
-    public IngredientDTO setWeightInGram(int weightInGram) {
-        this.weightInGram = weightInGram;
-        return this;
-    }
-
 
     public IngredientDTO setName(String name) {
         this.name = name;

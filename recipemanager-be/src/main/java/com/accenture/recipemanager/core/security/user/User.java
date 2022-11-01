@@ -1,10 +1,8 @@
-package com.accenture.recipemanager.domain.user;
+package com.accenture.recipemanager.core.security.user;
 
 import com.accenture.recipemanager.core.generic.AbstractEntity;
-import com.accenture.recipemanager.domain.ingredient.Ingredient;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 @Entity

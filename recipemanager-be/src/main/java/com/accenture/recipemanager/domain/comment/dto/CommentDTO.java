@@ -2,13 +2,10 @@ package com.accenture.recipemanager.domain.comment.dto;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
 import com.accenture.recipemanager.domain.comment.Comment;
-import com.accenture.recipemanager.domain.ingredient.Ingredient;
-import com.accenture.recipemanager.domain.recipe.dto.RecipeDTO;
-import com.accenture.recipemanager.domain.user.User;
-import com.accenture.recipemanager.domain.user.dto.LimitedUserDTO;
+import com.accenture.recipemanager.core.security.user.User;
+import com.accenture.recipemanager.core.security.user.dto.LimitedUserDTO;
 
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.List;
 

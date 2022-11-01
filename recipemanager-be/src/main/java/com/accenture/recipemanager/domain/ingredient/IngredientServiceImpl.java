@@ -1,15 +1,19 @@
 package com.accenture.recipemanager.domain.ingredient;
 
+import com.accenture.recipemanager.core.error.InvalidStringException;
+import com.accenture.recipemanager.core.error.MandatoryFieldIsNullException;
+import com.accenture.recipemanager.core.error.RecipeManagerError;
+import com.accenture.recipemanager.core.error.UserNotFoundException;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
 import com.accenture.recipemanager.domain.nutrition.Nutrition;
 import com.accenture.recipemanager.domain.nutrition.NutritionService;
-import com.accenture.recipemanager.domain.recipe.RecipeRepository;
-import com.accenture.recipemanager.domain.user.User;
-import com.accenture.recipemanager.domain.user.UserService;
+import com.accenture.recipemanager.core.security.user.User;
+import com.accenture.recipemanager.core.security.user.UserService;
 import org.slf4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +28,7 @@ private UserService userService;
     }
 
     @Override
+    @Transactional
     public Ingredient findByValue(Ingredient ingredient) {
         Nutrition nutrition = ingredient.getNutrition();
         if (nutrition.getId() != null) nutrition = nutritionService.findById(nutrition.getId().toString());
@@ -36,23 +41,28 @@ private UserService userService;
     }
 
     @Override
-    protected Ingredient preSave(Ingredient newEntity) {
+    @Transactional
+    protected Ingredient preSave(Ingredient newEntity) throws RecipeManagerError {
         newEntity.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         newEntity.setNutrition(nutritionService.createIfNotExist(newEntity.getNutrition()));
+
+        if(newEntity.getNutrition() == null || newEntity.getName() == null) throw new MandatoryFieldIsNullException("Mandatory field is null");
+        if(newEntity.getName().length() > 255) throw new InvalidStringException("Name of ingredient to long");
+
         return super.preSave(newEntity);
     }
 
     @Override
-    public List<Ingredient> getAllFromUser(String userId) {
+    @Transactional
+    public List<Ingredient> getAllFromUser(String userId) throws RecipeManagerError{
         User fromUser = null;
         try {
             fromUser = userService.findById(userId);
         } catch (IllegalArgumentException ignore) {
         }
         if (fromUser == null) fromUser = userService.findByUsername(userId);
-        if (fromUser == null) return null;
+        if (fromUser == null) throw new UserNotFoundException();
 
         return ((IngredientRepository) repository).findByUser(fromUser);
-
     }
 }

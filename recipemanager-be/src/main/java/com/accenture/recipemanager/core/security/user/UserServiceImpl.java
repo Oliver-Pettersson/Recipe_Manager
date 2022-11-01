@@ -1,4 +1,4 @@
-package com.accenture.recipemanager.domain.user;
+package com.accenture.recipemanager.core.security.user;
 
 import com.accenture.recipemanager.core.error.NotFoundException;
 import com.accenture.recipemanager.core.error.UsernameAlreadyExistsException;
@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
      * @return is the user after searching for existing values
      */
     @Override
+    @Transactional
     public User preSave(User entity) {
         return entity;
     }
@@ -47,6 +49,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
      * @return the created user
      */
     @Override
+    @Transactional
     public User create(User entity) {
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return super.create(entity);
@@ -62,6 +65,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
      * @throws UsernameAlreadyExistsException will be thrown if the username is already taken
      */
     @Override
+    @Transactional
     public User updateById(String id, User entity) throws NotFoundException, UsernameAlreadyExistsException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user != null) {
@@ -85,6 +89,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
      * @throws UsernameNotFoundException will be thrown if the user could not be found
      */
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = newRepository.findByUsername(username);
         if (user == null)
@@ -98,6 +103,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
      * @param username the name to be searched for
      * @return the user that was found or null
      */
+    @Transactional
     public User findByUsername(String username) {
         return ((UserRepository) repository).findByUsername(username);
     }

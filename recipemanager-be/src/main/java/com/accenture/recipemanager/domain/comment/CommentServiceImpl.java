@@ -1,21 +1,19 @@
 package com.accenture.recipemanager.domain.comment;
 
+import com.accenture.recipemanager.core.error.InvalidStringException;
+import com.accenture.recipemanager.core.error.MandatoryFieldIsNullException;
+import com.accenture.recipemanager.core.error.RecipeManagerError;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import com.accenture.recipemanager.core.error.UsernameAlreadyExistsException;
-import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
-import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
-import com.accenture.recipemanager.domain.user.User;
-import org.slf4j.Logger;
+import com.accenture.recipemanager.core.security.user.User;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
 
 
 @Service
@@ -26,7 +24,8 @@ public class CommentServiceImpl extends AbstractEntityServiceImpl<Comment> imple
 
 
     @Override
-    public Comment createReply(Comment comment, String referenceCommentId) {
+    @Transactional
+    public Comment createReply(Comment comment, String referenceCommentId) throws RecipeManagerError {
         //save comment
         comment.setComments(new ArrayList<>());
         comment.setTimeStamp(LocalDateTime.now() );
@@ -49,9 +48,14 @@ public class CommentServiceImpl extends AbstractEntityServiceImpl<Comment> imple
     }
 
     @Override
-    protected Comment preSave(Comment newEntity) {
+    @Transactional
+    protected Comment preSave(Comment newEntity) throws RecipeManagerError{
         newEntity.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         newEntity.setTimeStamp(LocalDateTime.now());
+
+        if(newEntity.getComment() == null)throw new MandatoryFieldIsNullException("Mandatory field is null");
+        if(newEntity.getComment().length() < 255) throw new InvalidStringException("Input for field comment is to long");
+
         return newEntity;
     }
 }
