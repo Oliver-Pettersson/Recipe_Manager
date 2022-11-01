@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface RecipeService extends AbstractEntityService<Recipe> {
     Recipe addRatingToRecipe(RateRecipeDTO dto);
-
+    List<Recipe> getAllCarousel();
     List<SimpleRecipeDTO> getAllRecipes();
 
     List<SimpleRecipeDTO> getAllFromUser(String userId);
