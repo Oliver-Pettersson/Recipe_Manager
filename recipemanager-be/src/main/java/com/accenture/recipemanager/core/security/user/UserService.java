@@ -1,4 +1,4 @@
-package com.accenture.recipemanager.domain.user;
+package com.accenture.recipemanager.core.security.user;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityService;
 

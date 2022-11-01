@@ -3,7 +3,7 @@ package com.accenture.recipemanager.domain.recipe.dto;
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
 import com.accenture.recipemanager.domain.rating.Rating;
 import com.accenture.recipemanager.domain.recipeingredient.RecipeIngredient;
-import com.accenture.recipemanager.domain.user.User;
+import com.accenture.recipemanager.core.security.user.User;
 
 import java.util.List;
 

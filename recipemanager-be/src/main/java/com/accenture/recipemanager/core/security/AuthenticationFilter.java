@@ -2,7 +2,7 @@ package com.accenture.recipemanager.core.security;
 
 import com.accenture.recipemanager.core.error.MissingUserCredentialsException;
 import com.accenture.recipemanager.core.error.UserNotFoundException;
-import com.accenture.recipemanager.domain.user.UserService;
+import com.accenture.recipemanager.core.security.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -100,7 +100,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain, Authentication authResult)
             throws IOException {
         User user = (User) authResult.getPrincipal();
-        com.accenture.recipemanager.domain.user.User userModel = userService.findByUsername(user.getUsername());
+        com.accenture.recipemanager.core.security.user.User userModel = userService.findByUsername(user.getUsername());
         String accessToken = jwtManager.createAccessToken(userModel.getId().toString());
         String refreshToken = jwtManager.createRefreshToken(userModel.getId().toString());
         response.setContentType(APPLICATION_JSON_VALUE);

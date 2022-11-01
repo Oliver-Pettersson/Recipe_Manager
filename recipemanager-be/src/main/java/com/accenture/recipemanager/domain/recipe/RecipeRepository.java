@@ -2,7 +2,7 @@ package com.accenture.recipemanager.domain.recipe;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 
-import com.accenture.recipemanager.domain.user.User;
+import com.accenture.recipemanager.core.security.user.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

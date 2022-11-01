@@ -1,10 +1,10 @@
-package com.accenture.recipemanager.domain.user;
+package com.accenture.recipemanager.core.security.user;
 
 import com.accenture.recipemanager.core.error.UsernameAlreadyExistsException;
 import com.accenture.recipemanager.core.generic.AbstractEntityController;
 import com.accenture.recipemanager.core.generic.AbstractEntityService;
 import com.accenture.recipemanager.core.generic.DTOMapper;
-import com.accenture.recipemanager.domain.user.dto.UserDTO;
+import com.accenture.recipemanager.core.security.user.dto.UserDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;

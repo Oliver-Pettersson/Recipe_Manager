@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
@@ -41,6 +42,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
      * @return a list of objects
      */
     @Override
+    @Transactional
     public List<T> findAll() {
         return repository.findAll();
     }
@@ -53,6 +55,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
      * @throws NotFoundException will be thrown if the object could not be found
      */
     @Override
+    @Transactional
     public T findById(String id) throws NotFoundException {
         logger.debug("Attempting to find " + className + " with ID '" + id + "'");
         Optional<T> optional = repository.findById(UUID.fromString(id));
@@ -73,6 +76,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
      * @return the created object
      */
     @Override
+    @Transactional
     public T create(T entity) {
         logger.debug("Attempting to create " + className);
         entity.setId(null);
@@ -90,6 +94,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
      * @return the saved object
      */
     @Override
+    @Transactional
     public T save(T entity) {
         logger.debug("Attempting to save " + className);
 
@@ -110,6 +115,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
      * @throws UsernameAlreadyExistsException will be thrown if the username is changed and is already taken
      */
     @Override
+    @Transactional
     public T updateById(String id, T entity) throws NotFoundException, UsernameAlreadyExistsException {
         logger.debug("Attempting to update " + className + " with ID '" + id + "'");
 
@@ -156,10 +162,12 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
      * @param newEntity the object to be saved
      * @return the object to be saved
      */
+    @Transactional
     protected T preSave(T newEntity) {
         return newEntity;
     }
 
+    @Transactional
     protected T postSave(T newEntity) {
         return newEntity;
     }
@@ -171,6 +179,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
      * @throws NotFoundException will be thrown if the entry could not be found
      */
     @Override
+    @Transactional
     public void deleteById(String id) throws NotFoundException {
         logger.debug("Attempting to delete " + className + " with ID '" + id + "'");
         repository.deleteById(UUID.fromString(id));
@@ -184,11 +193,13 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
      * @return returns true if the element exists else false
      */
     @Override
+    @Transactional
     public boolean existsById(String id) {
         return repository.existsById(UUID.fromString(id));
     }
 
     @Override
+    @Transactional
     public T createIfNotExist(T entity) {
         if(entity == null) return null;
 
@@ -202,6 +213,7 @@ public abstract class AbstractEntityServiceImpl<T extends AbstractEntity> implem
     }
 
     @Override
+    @Transactional
     public T findByValue(T entity) {
         return null;
     }

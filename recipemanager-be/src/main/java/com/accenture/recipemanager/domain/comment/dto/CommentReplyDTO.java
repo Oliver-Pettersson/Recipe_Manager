@@ -1,11 +1,6 @@
 package com.accenture.recipemanager.domain.comment.dto;
 
 import com.accenture.recipemanager.core.generic.AbstractEntityDTO;
-import com.accenture.recipemanager.domain.comment.Comment;
-import com.accenture.recipemanager.domain.user.User;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class CommentReplyDTO extends AbstractEntityDTO {
     private String referenceComment;

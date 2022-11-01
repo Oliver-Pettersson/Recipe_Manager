@@ -1,5 +1,6 @@
 package com.accenture.recipemanager.domain.recipe;
 
+import com.accenture.recipemanager.core.error.*;
 import com.accenture.recipemanager.core.generic.AbstractEntityRepository;
 import com.accenture.recipemanager.core.generic.AbstractEntityServiceImpl;
 
@@ -11,11 +12,12 @@ import com.accenture.recipemanager.domain.recipe.dto.SimpleRecipeDTO;
 import com.accenture.recipemanager.domain.recipe.dto.RateRecipeDTO;
 import com.accenture.recipemanager.domain.recipeingredient.RecipeIngredient;
 import com.accenture.recipemanager.domain.recipeingredient.RecipeIngredientService;
-import com.accenture.recipemanager.domain.user.User;
-import com.accenture.recipemanager.domain.user.UserService;
+import com.accenture.recipemanager.core.security.user.User;
+import com.accenture.recipemanager.core.security.user.UserService;
 import org.slf4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,29 +36,43 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
     }
 
     @Override
+    @Transactional
     protected Recipe preSave(Recipe newEntity) {
-        //remove additional id
-        newEntity.setId(null);
-
         //set user to logged in user
         newEntity.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
-        //lookup ingredients
-        List<RecipeIngredient> ingredients = new ArrayList<>();
-        for (RecipeIngredient ingredient : newEntity.getRecipeIngredients()) {
-            ingredient = recipeIngredientService.createIfNotExist(ingredient);
-            if (ingredient != null) ingredients.add(ingredient);
-        }
+        newEntity.setRatings(null);
 
-        newEntity.setRecipeIngredients(ingredients);
+        //lookup ingredients
+        List<RecipeIngredient> recipeIngredients = new ArrayList<>();
+        for (RecipeIngredient recipeIngredient : newEntity.getRecipeIngredients()) {
+            recipeIngredient = recipeIngredientService.createIfNotExist(recipeIngredient);
+            if (recipeIngredient != null) recipeIngredients.add(recipeIngredient);
+        }
+        newEntity.setRecipeIngredients(recipeIngredients);
+
+        validateField(newEntity);
 
         return super.preSave(newEntity);
     }
 
+    public void validateField(Recipe recipe) {
+        if (recipe.getRecipeIngredients() == null || recipe.getName() == null || recipe.getDescription() == null || recipe.getImage() == null)
+            throw new MandatoryFieldIsNullException("Not all mandatory fields set");
+        if (recipe.getName().length() == 0 || recipe.getName().length() > 255)
+            throw new InvalidStringException("String invalid, ether to long or empty");
+        if (recipe.getImage().length() == 0) throw new InvalidStringException("String invalid, ether to long or empty");
+        if (recipe.getRecipeIngredients().size() > 0) throw new InvalidListException("List can't be empty");
+        if (recipe.getDescription().length() == 0) throw new InvalidStringException("String can't be empty");
+    }
+
     @Override
+    @Transactional
     public Recipe addRatingToRecipe(RateRecipeDTO dto) {
         Recipe recipe = findById(dto.getRecipe());
-
+        recipe.getRatings().forEach(rating -> {
+            if(rating.getComment().getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()) throw new RatingAlreadyExistsException("This user already created a rating");
+        }  );
         recipe.getRatings().add(ratingService.createIfNotExist(
                 new Rating().setRating(dto.getRating()).setComment(
                         new Comment().setComment(dto.getComment()).setComments(new ArrayList<>()))));
@@ -65,6 +81,7 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
     }
 
     @Override
+    @Transactional
     public List<SimpleRecipeDTO> getAllFromUser(String userId) {
         User fromUser = null;
         try {
@@ -72,19 +89,21 @@ public class RecipeServiceImpl extends AbstractEntityServiceImpl<Recipe> impleme
         } catch (IllegalArgumentException ignore) {
         }
         if (fromUser == null) fromUser = userService.findByUsername(userId);
-        if (fromUser == null) return null;
+        if (fromUser == null) throw new UserNotFoundException();
         List<Recipe> recipes = ((RecipeRepository) repository).findByUser(fromUser);
-        if (recipes == null) return null;
+        if (recipes == null) throw new NotFoundException("Recipes not found");
         return toSimpleRecipeDTO(recipes);
     }
 
     @Override
+    @Transactional
     public List<SimpleRecipeDTO> getAllRecipes() {
         List<Recipe> recipes = findAll();
-        if (recipes == null) return null;
+        if (recipes == null)  throw new NotFoundException("Recipes not found");
         return toSimpleRecipeDTO(recipes);
     }
 
+    @Transactional
     public List<SimpleRecipeDTO> toSimpleRecipeDTO(List<Recipe> recipes) {
         List<SimpleRecipeDTO> simpleRecipeDTOS = new ArrayList<>();
         for (Recipe recipe : recipes) {
