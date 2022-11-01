@@ -4,10 +4,10 @@ import MuiTextField from "../../atoms/MuiTextField/MuiTextField";
 import IngredientsSearchBar from "../IngredientsSearchBar/IngredientsSearchBar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
-import Ingredient from "../../../types/Ingredient/Ingredient";
+import CreateRecipeIngredientDTO from "../../../types/RecipeIngredient/CreateRecipeIngredientDTO";
 
 interface PropsType {
-  setFormikFieldValue: (value: Ingredient[]) => void
+  setFormikFieldValue: (value: CreateRecipeIngredientDTO[]) => void
 }
 
 export default function IngredientInputList({setFormikFieldValue} : PropsType) {
@@ -25,7 +25,7 @@ export default function IngredientInputList({setFormikFieldValue} : PropsType) {
   const [ingredientList, setIngredientList] = useState([defaultItem]);
   console.log(ingredientList);
   useEffect(() => {
-    setFormikFieldValue(ingredientList.map((ingredient) => {return {id: ingredient.food.id, amount: ingredient.amount}}))
+    setFormikFieldValue(ingredientList.map((ingredient) => {return {ingredient: {id: ingredient.food.id}, weightInGram: ingredient.amount}}))
   }, [ingredientList])
   
   return (
@@ -42,6 +42,7 @@ export default function IngredientInputList({setFormikFieldValue} : PropsType) {
                 food: value,
                 amount: row.amount,
               };
+              console.log("loadedArray", newArray)
               setIngredientList(newArray);
             }}
           />

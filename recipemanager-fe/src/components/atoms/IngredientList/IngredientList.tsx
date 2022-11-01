@@ -1,16 +1,17 @@
 import { List, ListItem, Typography } from "@mui/material";
-import IngredientEntity from "../../../types/Ingredient/IngredientEntity";
+import RecipeIngredient from "../../../types/RecipeIngredient/RecipeIngredients";
 
 interface PropsType {
-  ingredients: IngredientEntity[];
+  recipeIngredients: RecipeIngredient[];
 }
 
-export default function IngredientList({ ingredients }: PropsType) {
+export default function IngredientList({ recipeIngredients }: PropsType) {
+  console.log(recipeIngredients)
   return (
     <List sx={{ listStyleType: "disc", pl: 4 }} >
-      {ingredients.map((ingredient) => (
+      {recipeIngredients.map((recipeIngredient) => (
         <ListItem sx={{ display: "list-item" }}>
-          <Typography variant="body1">{ingredient.name}, {ingredient.weightInGram}g</Typography>
+          <Typography variant="body1">{recipeIngredient.ingredient.name}, {recipeIngredient.weightInGram}g</Typography>
         </ListItem>
       ))}
     </List>

@@ -2,7 +2,7 @@ import { Box, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useData } from "../../../contexts/DataContext";
 import RecipesService from "../../../services/RecipesService";
-import RecipeEntity from "../../../types/Recipe/RecipeEntityDTO";
+import Recipe from "../../../types/Recipe/Recipe";
 import DisplayRecipeDTO from "../../../types/Recipe/DisplayRecipeDTO";
 import CreateRecipeDialog from "../../organisms/CreateRecipeDialog/CreateRecipeDialog";
 import DetailedRecipeDialog from "../../organisms/DetailedRecipeDialog/DetailedRecipeDialog";
@@ -12,7 +12,7 @@ export default function RecipesPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [detailsDialog, setDetailsDialog] = useState<{
     isOpen: boolean;
-    recipe?: RecipeEntity;
+    recipe?: Recipe;
   }>({ isOpen: false, recipe: undefined });
   const defaultRows = [
     {

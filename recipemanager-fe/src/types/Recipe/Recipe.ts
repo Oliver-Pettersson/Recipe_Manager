@@ -1,8 +1,11 @@
-import Ingredient from "../Ingredient/Ingredient";
+import RatingType from "../RatingType/RatingType";
+import RecipeIngredient from "../RecipeIngredient/RecipeIngredients";
 
 export default interface Recipe {
+    id: string,
     image: string,
     name: string,
     description: string,
-    ingredients: Ingredient[]
+    recipeIngredients: RecipeIngredient[],
+    ratings: RatingType[]
 }

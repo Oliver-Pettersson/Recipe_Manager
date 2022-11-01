@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import RecipeEntity from "../../../types/Recipe/RecipeEntityDTO";
+import Recipe from "../../../types/Recipe/Recipe";
 import IngredientList from "../../atoms/IngredientList/IngredientList";
 import MuiButton from "../../atoms/MuiButton/MuiButton";
 import CommentSection from "../CommentSection/CommentSection";
@@ -14,7 +14,7 @@ import CommentSection from "../CommentSection/CommentSection";
 interface PropsType {
   open: boolean;
   setOpen: (value: boolean) => void;
-  recipeEntity?: RecipeEntity;
+  recipeEntity?: Recipe;
 }
 
 export default function DetailedRecipeDialog({
@@ -35,7 +35,7 @@ export default function DetailedRecipeDialog({
         <DialogContent sx={{ color: "white" }}>
           <Typography variant="h4">Ingredients</Typography>
           {recipeEntity && (
-            <IngredientList ingredients={recipeEntity.ingredients} />
+            <IngredientList recipeIngredients={recipeEntity.recipeIngredients} />
           )}
           <Typography variant="h4">Description</Typography>
           <Typography variant="body1">

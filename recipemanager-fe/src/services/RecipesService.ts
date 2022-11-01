@@ -1,4 +1,4 @@
-import Recipe from '../types/Recipe/Recipe';
+import CreateRecipeDTO from '../types/Recipe/CreateRecipeDTO';
 import SimpleRecipeDTO from '../types/Recipe/SimpleRecipeDTO';
 import ApiService from './ApiService';
 
@@ -19,7 +19,7 @@ const RecipesService = () => ({
     const {data} = await ApiService.get(baseURL + "user/" + username);
     return data;
     },
-  create:async (recipe:Recipe) => {
+  create:async (recipe:CreateRecipeDTO) => {
     console.log({...recipe})
     return ApiService.post(baseURL, {...recipe})
   }

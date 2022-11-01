@@ -37,7 +37,7 @@ export const DataContextProvider = ({ children }: DataProviderProps) => {
       .then((value) =>
         setIngredients(
           value.map((item: FoodEntity) => {
-            return { id: item.id, name: item.name, ...item.nutrition };
+            return { ...item.nutrition, id: item.id, name: item.name };
           })
         )
       );
@@ -50,7 +50,7 @@ export const DataContextProvider = ({ children }: DataProviderProps) => {
         .then((value) =>
           setUserIngredients(
             value.map((item: FoodEntity) => {
-              return { id: item.id, name: item.name, ...item.nutrition };
+              return { ...item.nutrition, id: item.id, name: item.name};
             })
           )
         );
